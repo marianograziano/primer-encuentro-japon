@@ -58,7 +58,7 @@ body {
     color: var(--color-dark);
     background-color: #fdfdf5;
     /* Soft cream base */
-    background-image: url('/Users/mariano/.gemini/antigravity/brain/520d312f-cf01-4b6b-9741-7cdcbc8b2d07/washi_con_kanji_sutil_1768763538767.png');
+    background-image: none;
     background-size: 800px;
     /* Increased size to make the kanji look less repetitive */
     background-repeat: repeat;
