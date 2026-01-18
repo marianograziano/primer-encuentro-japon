@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primer Encuentro con Japón - Viajes Espirituales y Culturales</title>
+    <meta name="description"
+        content="Viaja a Japón con un acompañante experto. 14 días de experiencia espiritual, cultural y gastronómica. Grupos pequeños, vivencias únicas.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Viajemos a Japón</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#experiencia">Experiencia</a></li>
+                <li><a href="#itinerario">Itinerario</a></li>
+                <li><a href="#tematicas">Temáticas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Primer encuentro con Japón</h1>
+            <p class="hero-subtitle">Un paseo espiritual y humano, a tu ritmo.</p>
+            <p class="hero-tagline">Sentir. Conversar. Vivir.</p>
+            <a href="#contacto" class="cta-button">Comienza tu viaje</a>
+        </div>
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Introducción Minimalista Zen con Tarjetas -->
+    <section class="intro-section-zen" id="experiencia">
+        <div class="container-zen">
+            <h2 class="zen-main-title">Primer encuentro con Japón</h2>
+
+            <div class="zen-cards-grid">
+                <!-- Tarjeta de Bienvenida con Imagen -->
+                <div class="zen-card featured">
+                    <div class="zen-card-image">
+                        <img src="/Users/mariano/.gemini/antigravity/brain/520d312f-cf01-4b6b-9741-7cdcbc8b2d07/uploaded_image_1768761293717.png"
+                            alt="Christian Criscuolo">
+                    </div>
+                    <div class="zen-card-content">
+                        <p class="zen-text-lead">Viajar a Japón puede ser un sueño, pero también un desafío para quienes
+                            no se animan a hacerlo solos. Mi propuesta está pensada para acompañar a personas que desean
+                            vivir esta experiencia única con seguridad, organización y un profundo sentido cultural.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Experiencia -->
+                <div class="zen-card">
+                    <h3 class="zen-subtitle">¿Por qué viajar conmigo?</h3>
+                    <p class="zen-text">Soy Licenciado en Administración, con más de 30 años de trayectoria en
+                        corporaciones, lo que me ha formado como <strong>organizador, planificador y comunicador
+                            experto</strong>.</p>
+                    <p class="zen-text">He recorrido numerosos países y he viajado varias veces a Japón, permaneciendo
+                        allí durante semanas y recorriendo muchos pueblos y ciudades. Esa experiencia me permitió
+                        conocer su cultura, su dinámica cotidiana y sus particularidades logísticas. Hablo inglés y
+                        tengo conocimientos de literatura japonesa, lo que me permite enriquecer el viaje con una
+                        perspectiva cultural y espiritual.</p>
+                </div>
+
+                <!-- Tarjeta Propuesta -->
+                <div class="zen-card">
+                    <h3 class="zen-subtitle">Un viaje distinto</h3>
+                    <p class="zen-text">Evitaremos buses turísticos: usaremos el transporte urbano, como lo hace el
+                        japonés de a pie. No habrá largas explicaciones de monumentos imposibles de recordar: cada lugar
+                        será una vivencia, un recuerdo auténtico. El grupo será pequeño y cercano, compartiendo
+                        intereses y disfrutando a nuestro ritmo. La propuesta es vivir Japón, sentirnos parte de su vida
+                        cotidiana, aunque sea por unos días.</p>
+                </div>
+
+                <!-- Tarjeta Compromiso -->
+                <div class="zen-card">
+                    <h3 class="zen-subtitle">Mi compromiso</h3>
+                    <p class="zen-text">Te propongo una vivencia única, un paseo por los sentidos, con la tranquilidad
+                        de que estaré acompañándote en cada paso para que puedas disfrutar sin estrés. Soy
+                        <strong>Christian Criscuolo</strong> y quisiera acompañarte en tu viaje.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Temáticas del Viaje -->
+    <section id="tematicas" class="tematicas-section">
+        <div class="container">
+            <h2 class="section-title">Descubre Japón a través de sus esencias</h2>
+
+            <div class="tematicas-grid">
+                <!-- Espiritualidad -->
+                <div class="tematica-card espiritualidad-card">
+                    <div class="tematica-content-full">
+                        <h3>Espiritualidad</h3>
+
+                        <p>La cultura japonesa tiene un gran arraigo en su espiritualidad. Ye sea por su credo budista,
+                            sintoísta o por su mirada de la naturaleza y la existencia con valores y respeto de miles de
+                            años.</p>
+
+                        <p>Viajar conmigo a Japón será un encuentro espiritual único: no correremos entre templos ni
+                            seguiremos multitudes, sino que nos detendremos en lugares sagrados, observaremos la vida
+                            cotidiana y nos daremos tiempo para conversar y sentir.</p>
+
+                        <p>Cada pausa será una vivencia compartida, un instante de contemplación que quedará en la
+                            memoria. Un viaje íntimo, cultural y humano, pensado para descubrir Japón a nuestro ritmo,
+                            con calma y profundidad.</p>
+
+                        <blockquote>"Japón a nuestro ritmo: un viaje íntimo, espiritual y cultural, donde cada templo se
+                            vive, no se recorre."</blockquote>
+
+                        <!-- Galería de imágenes espirituales -->
+                        <div class="spiritual-gallery">
+                            <div class="gallery-main">
+                                <img src="/Users/mariano/.gemini/antigravity/brain/520d312f-cf01-4b6b-9741-7cdcbc8b2d07/templo_dorado_japon_1768760275793.png"
+                                    alt="Templo dorado con jardín zen">
+                            </div>
+                            <div class="gallery-grid">
+                                <div class="gallery-item">
+                                    <img src="/Users/mariano/.gemini/antigravity/brain/520d312f-cf01-4b6b-9741-7cdcbc8b2d07/torii_gates_shrine_1768760292747.png"
+                                        alt="Torii gates en santuario">
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="/Users/mariano/.gemini/antigravity/brain/520d312f-cf01-4b6b-9741-7cdcbc8b2d07/jardin_zen_rocas_1768760307345.png"
+                                        alt="Jardín zen con rocas">
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="/Users/mariano/.gemini/antigravity/brain/520d312f-cf01-4b6b-9741-7cdcbc8b2d07/templo_madera_montanas_1768760323521.png"
+                                        alt="Templo de madera en las montañas">
+                                </div>
+                                <div class="gallery-item">
+                                    <img src="/Users/mariano/.gemini/antigravity/brain/520d312f-cf01-4b6b-9741-7cdcbc8b2d07/detalles_templo_japones_1768760339675.png"
+                                        alt="Detalles de templo japonés">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Literatura -->
+                <div class="tematica-card reverse">
+                    <div class="tematica-image">
+                        <img src="Slide4.jpg" alt="Literatura japonesa">
+                    </div>
+                    <div class="tematica-content">
+                        <h3>Literatura (y libros llevados al cine)</h3>
+                        <p>La literatura nos transporta con su magia a lugares y emociones. Los lectores sabemos lo
+                            poderoso que es vivir esas historias en escenarios reales: caminar donde los autores
+                            vivieron, descubrir los espacios de sus personajes y sentir sus dramas y las pasiones que
+                            nos marcaron.</p>
+                        <ul class="tematica-list">
+                            <li><strong>En Kioto:</strong> Paseamos por las calles Sannenzaka y Ninenzaka, recordando a
+                                Chieko y sus caminatas melancólicas.</li>
+                            <li><strong>En Tokio:</strong> Visitaremos el barrio "Jimbocho" donde se dice, se da la
+                                mayor cantidad de librerías por metro cuadrado del mundo.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Gastronomía -->
+                <div class="tematica-card">
+                    <div class="tematica-image">
+                        <img src="Slide5.jpg" alt="Gastronomía japonesa">
+                    </div>
+                    <div class="tematica-content">
+                        <h3>Gastronomía</h3>
+                        <p>La gastronomía japonesa es un viaje en sí mismo. Los llevaré a probar <strong>gyozas
+                                crujientes, ramen humeante</strong>, y otras exquisiteces que revelan tanto el Japón
+                            tradicional como el moderno.</p>
+                        <p>Comeremos en <strong>locales familiares</strong> llenos de encanto y también descubriremos
+                            propuestas actuales que muestran la creatividad culinaria japonesa. Cada plato será una
+                            experiencia, un recuerdo y una forma de sentir Japón con todos los sentidos.</p>
+                    </div>
+                </div>
+
+                <!-- Naturaleza -->
+                <div class="tematica-card reverse">
+                    <div class="tematica-image">
+                        <img src="Slide6.jpg" alt="Naturaleza eterna">
+                    </div>
+                    <div class="tematica-content">
+                        <h3>Naturaleza eterna</h3>
+                        <p><em>"Creo que los japoneses se consideran parte de la naturaleza, en cuerpo y alma"</em>,
+                            escribió Amélie Nothomb en <em>Japón eterno</em>. Esta frase resume la profunda conexión que
+                            el pueblo japonés con su entorno: la naturaleza es un espejo del alma.</p>
+                        <p>Un viaje para contemplar, sentir y dejarse transformar por la belleza eterna de la naturaleza
+                            japonesa.</p>
+                    </div>
+                </div>
+
+                <!-- Onsen y Sento -->
+                <div class="tematica-card">
+                    <div class="tematica-image">
+                        <img src="Slide7.jpg" alt="Onsen y Sento">
+                    </div>
+                    <div class="tematica-content">
+                        <h3>Onsen y Sento: Purificación y relax</h3>
+                        <p>El ritual de la limpieza está profundamente arraigado en Japón. Desde una mirada espiritual,
+                            el ritual de los baños termales es una forma de purificar la mente y la tranquilidad del
+                            alma, en un proceso cuidado, relajado y concentrado con uno mismo.</p>
+                        <p>En este viaje recomiendo pasar por esa experiencia tomándolos un tiempo para nosotros, para
+                            cada uno en su intimidad. Un rito de purificación.</p>
+                    </div>
+                </div>
+
+                <!-- Japón Vibrante -->
+                <div class="tematica-card reverse">
+                    <div class="tematica-image">
+                        <img src="Slide8.jpg" alt="El Japón vibrante">
+                    </div>
+                    <div class="tematica-content">
+                        <h3>El Japón vibrante</h3>
+                        <p>Japón también es energía, música, sabores y modernidad. En este viaje vamos a descubrir ese
+                            lado divertido y vibrante del país.</p>
+                        <ul class="tematica-list">
+                            <li>Probaremos distintos <strong>sake</strong> y cervezas locales</li>
+                            <li>Saldremos a escuchar <strong>jazz en Kioto</strong></li>
+                            <li>Viviremos la noche de <strong>Shinjuku</strong>, entre luces de neón</li>
+                            <li>Exploraremos barrios retro en <strong>Osaka</strong> o mundos de manga en
+                                <strong>Akihabara</strong>
+                            </li>
+                        </ul>
+                    </div>
+    </section>
+
+    <!-- Itinerario Split View -->
+    <section id="itinerario" class="itinerario-section-split">
+        <div class="container-full">
+            <h2 class="section-title">Itinerario: 14 días de descubrimiento</h2>
+            <p class="section-subtitle">Explora cada día de tu viaje. Haz clic en un día para verlo en el mapa.</p>
+
+            <div class="itinerary-wrapper">
+                <!-- Sidebar: Itinerario Expandible -->
+                <div class="itinerary-sidebar">
+                    <div class="itinerario-timeline-accordion">
+
+                        <div class="timeline-accordion-item" data-location="tokio" data-lat="35.7148"
+                            data-lng="139.7967">
+                            <div class="accordion-header">
+                                <span class="day-number">1</span>
+                                <div class="header-info">
+                                    <h3>Día 1 - TOKIO</h3>
+                                    <p>Salida a Tokio: Asakusa y tradición</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Asakusa: barrio histórico y templo Sensō-ji</li>
+                                    <li>Paseo por la calle tradicional Nakamise</li>
+                                    <li>Experiencia "wanko" en parque con perros celebridad</li>
+                                    <li>Cena de bienvenida: tonkatsu en restaurante familiar</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="tokio" data-lat="35.7242"
+                            data-lng="139.7733">
+                            <div class="accordion-header">
+                                <span class="day-number">2</span>
+                                <div class="header-info">
+                                    <h3>Día 2 - TOKIO</h3>
+                                    <p>Yanaka y Akihabara: Dos caras de la ciudad</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Barrio Yanaka: templos y sake tradicional</li>
+                                    <li>Almuerzo libre en la zona</li>
+                                    <li>Akihabara: sumérgete en el mundo geek, manga y tecnología</li>
+                                    <li>Retorno al hotel y descanso</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="fuji" data-lat="35.5000"
+                            data-lng="138.7667">
+                            <div class="accordion-header">
+                                <span class="day-number">3</span>
+                                <div class="header-info">
+                                    <h3>Día 3 - FUJI</h3>
+                                    <p>Naturaleza a los pies del volcán</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Traslado al área del Monte Fuji</li>
+                                    <li>Lago Kawaguchiko: las mejores postales</li>
+                                    <li>Caminata crepuscular por la ribera</li>
+                                    <li>Noche tranquila cerca del lago</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="kioto" data-lat="34.9948"
+                            data-lng="135.7850">
+                            <div class="accordion-header">
+                                <span class="day-number">4</span>
+                                <div class="header-info">
+                                    <h3>Día 4 - KIOTO</h3>
+                                    <p>Llegada a la capital cultural</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Santuario Heian: simetría y color bermellón</li>
+                                    <li>Paseo literario: calles Sannenzaka y Ninenzaka</li>
+                                    <li>Cena libre en el histórico callejón Pontocho</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="kioto" data-lat="35.0394"
+                            data-lng="135.7292">
+                            <div class="accordion-header">
+                                <span class="day-number">5</span>
+                                <div class="header-info">
+                                    <h3>Día 5 - KIOTO</h3>
+                                    <p>Pabellones dorados y bosques de bambú</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Templo Kinkaku-ji: el majestuoso Pabellón Dorado</li>
+                                    <li>Arashiyama: caminata por el famoso bosque de bambú</li>
+                                    <li>Templo Tenryu-ji y sus jardines zen</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="kioto" data-lat="34.9671"
+                            data-lng="135.7727">
+                            <div class="accordion-header">
+                                <span class="day-number">6</span>
+                                <div class="header-info">
+                                    <h3>Día 6 - KIOTO</h3>
+                                    <p>Senderos de Toris y noche de Jazz</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Fushimi Inari: el camino de los mil toris</li>
+                                    <li>Jardín Imperial Kyoto Gyoen</li>
+                                    <li>Noche cultural: Jazz en vivo en Kioto</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="nara" data-lat="34.6851"
+                            data-lng="135.8050">
+                            <div class="accordion-header">
+                                <span class="day-number">7</span>
+                                <div class="header-info">
+                                    <h3>Día 7 - NARA / UJI</h3>
+                                    <p>Ciervos sagrados y la ciudad del té</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Nara: Gran Buda de Todai-ji y ciervos en el parque</li>
+                                    <li>Uji: Cuna del té verde y templo Byodo-in</li>
+                                    <li>Regreso a Kioto por la tarde</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="osaka" data-lat="34.6873"
+                            data-lng="135.5262">
+                            <div class="accordion-header">
+                                <span class="day-number">8</span>
+                                <div class="header-info">
+                                    <h3>Día 8 - KIOTO / OSAKA</h3>
+                                    <p>Hacia la vibrante Osaka</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Mañana libre en Kioto</li>
+                                    <li>Tren a Osaka al mediodía</li>
+                                    <li>Castillo de Osaka y barrio retro de Shinsekai</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="osaka" data-lat="34.6687"
+                            data-lng="135.5013">
+                            <div class="accordion-header">
+                                <span class="day-number">9</span>
+                                <div class="header-info">
+                                    <h3>Día 9 - OSAKA</h3>
+                                    <p>Sabores de Dotonbori</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Kuromon Ichiba: sushi fresco y especialidades locales</li>
+                                    <li>Dotonbori: el espectáculo de luces y comida callejera</li>
+                                    <li>Tarde libre para compras</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="tokio" data-lat="35.6812"
+                            data-lng="139.7671">
+                            <div class="accordion-header">
+                                <span class="day-number">10</span>
+                                <div class="header-info">
+                                    <h3>Día 10 - TOKIO</h3>
+                                    <p>Retorno en Tren Bala</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Shinkansen de Osaka a Tokio</li>
+                                    <li>Tarde libre en la capital</li>
+                                    <li>Check-in y cena tranquila</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="tokio" data-lat="35.6585"
+                            data-lng="139.7013">
+                            <div class="accordion-header">
+                                <span class="day-number">11</span>
+                                <div class="header-info">
+                                    <h3>Día 11 - TOKIO</h3>
+                                    <p>Shibuya y Harajuku</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Cruce de Shibuya: el latido de la ciudad</li>
+                                    <li>Harajuku: moda Takeshita y Meiji Jingu</li>
+                                    <li>Cena temática o libre</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="tokio" data-lat="35.7032"
+                            data-lng="139.6672">
+                            <div class="accordion-header">
+                                <span class="day-number">12</span>
+                                <div class="header-info">
+                                    <h3>Día 12 - TOKIO</h3>
+                                    <p>Shimokita y Golden Gai</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Shimokitazawa: vibra alternativa y vinilos</li>
+                                    <li>Shinjuku Golden Gai: callejones con historia</li>
+                                    <li>Experiencia de sake nocturno</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="kamakura" data-lat="35.3192"
+                            data-lng="139.5466">
+                            <div class="accordion-header">
+                                <span class="day-number">13</span>
+                                <div class="header-info">
+                                    <h3>Día 13 - KAMAKURA</h3>
+                                    <p>Paz frente al mar</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Hasedera y el Gran Buda de Kamakura</li>
+                                    <li>Komachi-dori y templos costeros</li>
+                                    <li>Regreso a Tokio al atardecer</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="tokio" data-lat="35.7101"
+                            data-lng="139.8107">
+                            <div class="accordion-header">
+                                <span class="day-number">14</span>
+                                <div class="header-info">
+                                    <h3>Día 14 - TOKIO</h3>
+                                    <p>Skytree y despedida</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Tokyo Skytree: vistas panorámicas</li>
+                                    <li>Ochanomizu: rincón universitario y relax</li>
+                                    <li>Cena de despedida en Asakusa</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-accordion-item" data-location="tokio" data-lat="35.7720"
+                            data-lng="140.3929">
+                            <div class="accordion-header">
+                                <span class="day-number">15</span>
+                                <div class="header-info">
+                                    <h3>Día 15 - TOKIO</h3>
+                                    <p>Sayonara Japón</p>
+                                </div>
+                                <span class="accordion-icon">⌄</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Traslado al aeropuerto</li>
+                                    <li>Fin del acompañamiento</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right: Mapa Fijo -->
+                <div class="itinerary-map-view">
+                    <div class="sticky-map-container">
+                        <div id="map"></div>
+                        <div class="map-legend-overlay">
+                            <div class="legend-item"><span class="legend-dot tokio"></span><span>Tokio</span></div>
+                            <div class="legend-item"><span class="legend-dot fuji"></span><span>Fuji</span></div>
+                            <div class="legend-item"><span class="legend-dot kioto"></span><span>Kioto</span></div>
+                            <div class="legend-item"><span class="legend-dot osaka"></span><span>Osaka</span></div>
+                            <div class="legend-item"><span class="legend-dot nara"></span><span>Nara</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inclusiones -->
+    <section class="inclusiones-section">
+        <div class="container">
+            <h2 class="section-title">¿Qué incluye el viaje?</h2>
+
+            <div class="inclusiones-grid">
+                <div class="incluido-card">
+                    <h3>✓ Incluido</h3>
+                    <ul>
+                        <li>Aéreo desde Buenos Aires a Tokio con dos escalas en cada tramo. Clase turista con 1 valija
+                            incl.</li>
+                        <li><strong>Hoteles:</strong>
+                            <ul>
+                                <li>2 noches de hotel en Tokio (Asakusa)</li>
+                                <li>1 noche de hotel en Fuji (Kawaguchiko)</li>
+                                <li>4 noches en Kioto</li>
+                                <li>2 noches en Osaka</li>
+                                <li>5 noches en Tokio</li>
+                            </ul>
+                        </li>
+                        <li><strong>Transporte entre:</strong> (trenes, buses o metro)
+                            <ul>
+                                <li>Aeropuerto Tokio-Hotel</li>
+                                <li>Tokio – Lago Kawaguchiko</li>
+                                <li>Lago Kawaguchiko – Kioto</li>
+                                <li>Kioto – Osaka</li>
+                                <li>Osaka – Tokio (tren Shinkansen)</li>
+                                <li>Tokio – Kamakura</li>
+                                <li>Tokio – Aeropuerto</li>
+                            </ul>
+                        </li>
+                        <li>Tarjeta Suica o Pasmo (de transporte) con 5.000 yenes</li>
+                        <li>Mi acompañamiento desde la primera actividad prevista del día, hasta última hora de la tarde
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="no-incluido-card">
+                    <h3>✗ No incluido</h3>
+                    <ul>
+                        <li>Almuerzos y cenas</li>
+                        <li>Buses y metro (subtes)</li>
+                        <li>Seguro de viaje (debe contratarlo antes de viajar)</li>
+                        <li>Cualquier otra actividad no mencionada en el itinerario</li>
+                        <li>Entrada a templos y atracciones</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nota-importante">
+                <p><strong>Nota:</strong> El servicio de acompañante no tiene responsabilidad sobre las contrataciones
+                    de servicios o productos que el cliente realice. Los viajeros compartirán el mismo itinerario,
+                    hoteles y deberán ser mayores de 18 años. Seguro: Es obligatorio cada viajero contratar un seguro de
+                    viabilidad personal antes de viajar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contacto-section">
+        <div class="container">
+            <div class="contacto-content">
+                <div class="contacto-text">
+                    <h2>¡Viajemos a Japón!</h2>
+                    <p>¿Listo para vivir una experiencia única? Contáctame y comencemos a planificar tu viaje.</p>
+                </div>
+                <div class="contacto-info">
+                    <a href="mailto:ccrisculoa@gmail.com" class="contacto-item">
+                        <span class="contacto-icon">✉️</span>
+                        <span>ccrisculoa@gmail.com</span>
+                    </a>
+                    <a href="tel:+5491125341566" class="contacto-item">
+                        <span class="contacto-icon">📱</span>
+                        <span>11.2534.1566</span>
+                    </a>
+                    <a href="https://instagram.com/viajemosajapon" target="_blank" class="contacto-item">
+                        <span class="contacto-icon">📷</span>
+                        <span>@viajemosajapon</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Viajemos a Japón - Christian Cenzano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
