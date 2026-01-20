@@ -17,7 +17,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
     // Inject Sidebar HTML
+    // Inject Sidebar HTML
     const sidebarHtml = `
+        <button id="floatingExitBtn" style="position:fixed; bottom:20px; left:20px; z-index:9999; background:#d9534f; color:white; border:none; padding:12px 24px; border-radius:30px; font-family:'Outfit',sans-serif; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.2); font-weight:600; display:flex; align-items:center; gap:8px;">
+            <span>🚪 Salir de Edición</span>
+        </button>
+
         <div class="overlay-backdrop" id="editorBackdrop"></div>
         <div class="editor-sidebar" id="editorSidebar">
             <div class="sidebar-header">
@@ -52,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             </div>
             <div class="sidebar-footer">
                 <button class="sidebar-save-btn" id="sidebarSaveBtn">Guardar Cambios</button>
-                <button style="width:100%; margin-top:10px; background:#ddd; border:none; padding:10px; border-radius:8px; display:block; cursor:pointer;" onclick="fetch('/api/logout', {method:'POST'}).then(()=>window.location.href='/login.html')">Cerrar Sesión</button>
+                <button id="sidebarLogoutBtn" style="width:100%; margin-top:10px; background:#f0f0f0; color:#333; border:none; padding:10px; border-radius:8px; display:block; cursor:pointer;">Cerrar Sesión</button>
             </div>
         </div>
     `;
@@ -234,6 +239,15 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     document.getElementById('closeSidebar').onclick = closeSidebar;
     backdrop.onclick = closeSidebar;
+
+    const logoutHandler = async () => {
+        if (confirm("¿Estás seguro de que quieres salir del modo edición? Tendrás que ingresar la contraseña nuevamente.")) {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.href = '/';
+        }
+    };
+    document.getElementById('floatingExitBtn').onclick = logoutHandler;
+    document.getElementById('sidebarLogoutBtn').onclick = logoutHandler;
 
     document.querySelectorAll('.layout-btn').forEach(btn => {
         btn.onclick = () => {

@@ -22,7 +22,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: false, // Set to true if using HTTPS behind proxy correctly configured (trust proxy)
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        // maxAge removed: cookie dies when browser closes
     }
 }));
 
