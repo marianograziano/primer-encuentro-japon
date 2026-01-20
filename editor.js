@@ -1,294 +1,326 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log("Theme Editor Initialized - Persistence Enbaled");
+    console.log("Theme Editor Initialized - Clean Mode");
+    const API_BASE = '/api';
 
-    // ===== CONFIGURATION =====
-    const API_BASE = 'http://localhost:3000/api'; // Adjust port if needed
+    // Inject Sidebar HTML (Simplified)
+    const sidebarHtml = `
+        <div class="overlay-backdrop" id="editorBackdrop"></div>
+        <div class="editor-sidebar" id="editorSidebar">
+            <div class="sidebar-header">
+                <h3 class="sidebar-title">Editar Bloque</h3>
+                <button class="close-sidebar-btn" id="closeSidebar">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <!-- Layout Selection -->
+                <div class="control-group">
+                    <span class="group-label">Distribución Visual</span>
+                    <div class="layout-options" id="sidebarLayouts"></div>
+                </div>
 
-    // ===== LOAD SAVED STATE =====
-    try {
-        const response = await fetch(`${API_BASE}/sections`);
-        const { data } = await response.json();
+                <!-- Text Content -->
+                <div class="control-group">
+                    <span class="group-label">Título</span>
+                    <input type="text" id="sidebarTitleInput" class="sidebar-input">
+                </div>
+                <div class="control-group">
+                    <span class="group-label">Texto (Párrafos)</span>
+                    <textarea id="sidebarContentInput" class="sidebar-textarea" placeholder="Escribe aquí... Usa Enter para separar párrafos."></textarea>
+                    <small style="color:#999; display:block; margin-top:5px;">Se respeta la tipografía original del sitio.</small>
+                </div>
 
-        data.forEach(section => {
-            const el = document.querySelector(`[data-section-id="${section.id}"]`);
-            if (el) {
-                // Restore Layout
-                // Remove all layout classes first
-                ['layout-left-img', 'layout-right-img', 'layout-stacked', 'layout-overlay', 'layout-minimal'].forEach(l => el.classList.remove(l));
+                <!-- Images -->
+                <div class="control-group">
+                    <span class="group-label">Galería de Imágenes</span>
+                    <div class="image-manager-list" id="sidebarImages"></div>
+                    <button class="add-image-btn" id="sidebarAddImageBtn">+ Subir Imagen</button>
+                    <input type="file" id="sidebarHiddenInput" accept="image/*" style="display:none">
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <button class="sidebar-save-btn" id="sidebarSaveBtn">Guardar Cambios</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', sidebarHtml);
 
-                if (section.layout && section.layout !== 'default') {
-                    el.classList.remove('reverse'); // Clear default reverse
-                    el.classList.add(section.layout);
-                    // Update active button state if controls exist
-                    const defaultBtn = el.querySelector(`[data-layout="${section.layout}"]`);
-                    if (defaultBtn) {
-                        el.querySelectorAll('.wireframe-btn').forEach(b => b.classList.remove('active'));
-                        defaultBtn.classList.add('active');
-                    }
-                }
+    // State
+    let currentSection = null;
+    let currentImages = [];
 
-                // Restore Content
-                if (section.content_html) {
-                    const contentContainer = el.querySelector('.tematica-content');
-                    if (contentContainer) contentContainer.innerHTML = section.content_html;
-                }
+    // Elements
+    const sidebar = document.getElementById('editorSidebar');
+    const backdrop = document.getElementById('editorBackdrop');
+    const layoutContainer = document.getElementById('sidebarLayouts');
+    const imageList = document.getElementById('sidebarImages');
+    const titleInput = document.getElementById('sidebarTitleInput');
+    const contentInput = document.getElementById('sidebarContentInput');
+    const addImageBtn = document.getElementById('sidebarAddImageBtn');
+    const hiddenInput = document.getElementById('sidebarHiddenInput');
 
-                // Restore Images
-                if (section.images_html) {
-                    const imageContainer = el.querySelector('.tematica-image');
-                    // Check if structure matches (e.g. grid vs single)
-                    // We simply replace innerHTML of the container. 
-                    // This assumes the container structure hasn't fundamentally changed in way that breaks CSS.
-                    if (imageContainer) imageContainer.innerHTML = section.images_html;
-                }
+    // Layouts
+    const layouts = [
+        { id: 'default', name: 'Original', icon: '<rect x="2" y="5" width="9" height="14"/><rect x="13" y="5" width="9" height="14"/>' },
+        { id: 'layout-left-img', name: 'Img Izquierda', icon: '<rect x="2" y="5" width="8" height="14" fill="#ccc"/><lines x="12" y="5"/>' },
+        { id: 'layout-right-img', name: 'Img Derecha', icon: '<rect x="14" y="5" width="8" height="14" fill="#ccc"/><lines x="2" y="5"/>' },
+        { id: 'layout-stacked', name: 'Apilado', icon: '<rect x="4" y="2" width="16" height="8" fill="#ccc"/><lines x="4" y="12"/>' },
+        { id: 'layout-overlay', name: 'Fondo', icon: '<rect x="2" y="2" width="20" height="20" fill="#ccc"/><rect x="6" y="8" width="12" height="8" fill="white"/>' },
+        { id: 'layout-minimal', name: 'Minimal', icon: '<text x="2" y="15" font-size="20">A</text>' }
+    ];
+
+    layoutContainer.innerHTML = layouts.map(l => `
+        <div class="layout-btn" data-layout="${l.id}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${l.icon}</svg>
+            <span>${l.name}</span>
+        </div>
+    `).join('');
+
+    // ===== LOGIC =====
+
+    function openSidebar(section) {
+        currentSection = section;
+        section.classList.add('editing-active');
+        sidebar.classList.add('open');
+        backdrop.classList.add('visible');
+
+        // 1. Layout State
+        const currentLayout = layouts.find(l => section.classList.contains(l.id))?.id || 'default';
+        document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.layout === currentLayout));
+
+        // 2. Text Content (Extraction)
+        const h3 = section.querySelector('h3');
+        titleInput.value = h3 ? h3.innerText : '';
+
+        // Extract paragraphs cleanly
+        // We look for <p> and <li> to convert to plain text with newlines
+        // This strips existing bold/italic HTML which might be annoying if user wants to keep it,
+        // but ensures clean font rendering. 
+        // Improvement: Keep innerHTML but strip wrapper tags?
+        // Let's use innerText but respect paragraphs as newlines.
+        const contentContainer = section.querySelector('.tematica-content');
+        if (contentContainer) {
+            // Filter out the H3 and UL/LI structure mess, focus on Ps
+            // Or just grab all Ps
+            const paras = Array.from(contentContainer.querySelectorAll('p'));
+            const listItems = Array.from(contentContainer.querySelectorAll('li'));
+
+            // Allow user to edit raw text? No, too hard.
+            // Let's just grab text content of paragraphs combined with newlines.
+
+            // BETTER APPROACH: Clone content, remove H3, get innerHTML of rest?
+            // This preserves <strong> tags if they exist.
+            const clone = contentContainer.cloneNode(true);
+            const title = clone.querySelector('h3');
+            if (title) title.remove();
+
+            // Clean up: Replace <p> with nothing (just break lines), replace <br> with newline layout
+            // Regex to convert HTML to "Editable Text"
+            let html = clone.innerHTML.trim();
+            // Replace <p>...</p> with text + \n\n
+            // This is complex. 
+            // SIMPLEST: multiple textareas? No.
+            // Just one textarea. We will inject <p> tags on save.
+
+            // For now, let's grab textContent. It loses bolding. 
+            // If user wants bolding, we can allow <b> tags in textarea.
+            contentInput.value = paras.map(p => p.innerText).join('\n\n');
+
+            // Append lists if any
+            if (listItems.length > 0) {
+                contentInput.value += '\n\n' + listItems.map(li => '- ' + li.innerText).join('\n');
             }
-        });
-        console.log("Content loaded successfully");
-    } catch (e) {
-        console.error("Failed to load content:", e);
+        }
+
+        // 3. Images
+        loadImages();
     }
 
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('visible');
+        if (currentSection) currentSection.classList.remove('editing-active');
+        currentSection = null;
+    }
 
-    // ===== WIREFRAMES =====
-    const wires = {
-        left: `<svg width="40" height="28" viewBox="0 0 40 28" fill="none" stroke="#666" stroke-width="1.5"><rect x="1" y="1" width="38" height="26" rx="2" stroke="#ddd" fill="#fff"/><rect x="3" y="3" width="16" height="22" rx="1" fill="#e0e0e0" stroke="none"/><line x1="22" y1="5" x2="36" y2="5"/><line x1="22" y1="9" x2="34" y2="9"/><line x1="22" y1="13" x2="36" y2="13"/><line x1="22" y1="17" x2="30" y2="17"/></svg>`,
-        right: `<svg width="40" height="28" viewBox="0 0 40 28" fill="none" stroke="#666" stroke-width="1.5"><rect x="1" y="1" width="38" height="26" rx="2" stroke="#ddd" fill="#fff"/><rect x="21" y="3" width="16" height="22" rx="1" fill="#e0e0e0" stroke="none"/><line x1="4" y1="5" x2="18" y2="5"/><line x1="4" y1="9" x2="16" y2="9"/><line x1="4" y1="13" x2="18" y2="13"/><line x1="4" y1="17" x2="12" y2="17"/></svg>`,
-        stacked: `<svg width="40" height="28" viewBox="0 0 40 28" fill="none" stroke="#666" stroke-width="1.5"><rect x="1" y="1" width="38" height="26" rx="2" stroke="#ddd" fill="#fff"/><rect x="3" y="3" width="34" height="10" rx="1" fill="#e0e0e0" stroke="none"/><line x1="4" y1="17" x2="36" y2="17"/><line x1="4" y1="21" x2="26" y2="21"/></svg>`,
-        overlay: `<svg width="40" height="28" viewBox="0 0 40 28" fill="none" stroke="#666" stroke-width="1.5"><rect x="1" y="1" width="38" height="26" rx="2" fill="#e0e0e0" stroke="none"/><rect x="8" y="6" width="24" height="16" rx="1" fill="#fff" stroke="#999"/><line x1="12" y1="11" x2="28" y2="11" stroke="#999"/><line x1="12" y1="15" x2="24" y2="15" stroke="#999"/></svg>`,
-        minimal: `<svg width="40" height="28" viewBox="0 0 40 28" fill="none" stroke="#666" stroke-width="1.5"><rect x="1" y="1" width="38" height="26" rx="2" stroke="#ddd" fill="#fff"/><text x="3" y="14" font-family="serif" font-size="12" fill="#333" stroke="none">Aa</text><rect x="22" y="3" width="15" height="22" rx="1" fill="#e0e0e0" stroke="none"/></svg>`
-    };
-
-    // ===== 1. LAYOUT & TEXT CONTROLS =====
-    const cards = document.querySelectorAll('.tematica-card');
-    cards.forEach((card) => {
-        // Init Editable Text
-        const textElements = card.querySelectorAll('h3, p, li, blockquote');
-        textElements.forEach(el => {
-            el.setAttribute('contenteditable', 'true');
-            el.addEventListener('paste', e => {
-                e.preventDefault();
-                document.execCommand('insertText', false, (e.originalEvent || e).clipboardData.getData('text/plain'));
-            });
-            el.addEventListener('drop', e => e.preventDefault());
-        });
-
-        // Init Controls
-        // Check if controls already exist (due to reload)
-        if (!card.querySelector('.theme-editor-controls')) {
-            const controls = document.createElement('div');
-            controls.className = 'theme-editor-controls';
-            controls.innerHTML = `
-                <div class="control-group">
-                    <span class="control-label">ESTRUCTURA</span>
-                    <div class="layout-buttons wireframe-mode">
-                        <button class="editor-btn wireframe-btn" data-layout="layout-left-img" title="Imagen Izquierda">${wires.left}</button>
-                        <button class="editor-btn wireframe-btn" data-layout="layout-right-img" title="Imagen Derecha">${wires.right}</button>
-                        <button class="editor-btn wireframe-btn" data-layout="layout-stacked" title="Apilado">${wires.stacked}</button>
-                        <button class="editor-btn wireframe-btn" data-layout="layout-overlay" title="Superpuesto">${wires.overlay}</button>
-                        <button class="editor-btn wireframe-btn" data-layout="layout-minimal" title="Minimal">${wires.minimal}</button>
-                        <button class="editor-btn text-reset-btn" data-layout="default" title="Resetear">↺</button>
-                    </div>
-                </div>`;
-
-            if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
-            card.appendChild(controls);
-
-            const btns = controls.querySelectorAll('.editor-btn');
-            const layouts = ['layout-left-img', 'layout-right-img', 'layout-stacked', 'layout-overlay', 'layout-minimal'];
-            btns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const targetBtn = e.target.closest('button');
-                    if (!targetBtn) return;
-                    const layout = targetBtn.dataset.layout;
-                    // Apply layout
-                    layouts.forEach(l => card.classList.remove(l));
-                    if (layout !== 'default') { card.classList.remove('reverse'); card.classList.add(layout); }
-
-                    // Update UI
-                    btns.forEach(b => b.classList.remove('active'));
-                    targetBtn.classList.add('active');
-                });
+    function loadImages() {
+        if (!currentSection) return;
+        const container = currentSection.querySelector('.tematica-image');
+        currentImages = [];
+        if (container) {
+            container.querySelectorAll('img').forEach(img => {
+                currentImages.push({ src: img.getAttribute('src') });
             });
         }
-    });
+        renderImages();
+    }
 
-    // ===== 2. IMAGE HANDLER (Upload to Server) =====
-    // Re-runable initializer for images
-    const refreshImageHandlers = () => {
-        const imageContainers = document.querySelectorAll('.tematica-image, .zen-card-image, .gallery-item, .gallery-main');
-
-        imageContainers.forEach(container => {
-            if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
-            const items = container.querySelectorAll('img');
-
-            items.forEach(img => {
-                img.style.cursor = 'pointer';
-                img.title = "Click para editar";
-
-                img.onclick = (e) => {
-                    e.preventDefault(); e.stopPropagation();
-                    document.querySelectorAll('.img-context-menu').forEach(el => el.remove());
-
-                    const menu = document.createElement('div');
-                    menu.className = 'img-context-menu';
-                    menu.innerHTML = `
-                        <button class="menu-btn change-btn">📸 Cambiar Imagen</button>
-                        <button class="menu-btn caption-btn">📝 Agregar Copete</button>
-                        <button class="menu-btn delete-btn">🗑️ Eliminar</button>
-                        <button class="menu-btn cancel-btn">✖</button>
-                    `;
-
-                    const top = img.offsetTop + (img.offsetHeight / 2) - 40;
-                    const left = img.offsetLeft + (img.offsetWidth / 2) - 70;
-                    menu.style.top = `${top}px`; menu.style.left = `${left}px`;
-                    container.appendChild(menu);
-
-                    // 1. CHANGE (Upload)
-                    menu.querySelector('.change-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const input = document.createElement('input');
-                        input.type = 'file'; input.accept = 'image/*'; input.style.display = 'none';
-                        input.onchange = async (ev) => {
-                            if (ev.target.files[0]) {
-                                const file = ev.target.files[0];
-
-                                // Upload to Server
-                                const formData = new FormData();
-                                formData.append('image', file);
-
-                                try {
-                                    const res = await fetch(`${API_BASE}/upload`, {
-                                        method: 'POST',
-                                        body: formData
-                                    });
-                                    if (res.ok) {
-                                        const result = await res.json();
-                                        img.src = result.url; // Use server URL
-                                    } else {
-                                        alert("Error uploading image");
-                                    }
-                                } catch (err) {
-                                    console.error(err);
-                                    alert("Upload failed");
-                                }
-                                menu.remove();
-                            }
-                        };
-                        input.click();
-                    });
-
-                    // 2. CAPTION
-                    menu.querySelector('.caption-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        let wrapper = img.parentElement;
-                        let caption;
-                        if (wrapper.tagName.toLowerCase() !== 'figure') {
-                            const figure = document.createElement('figure');
-                            figure.className = 'img-wrapper-figure';
-                            img.parentNode.insertBefore(figure, img);
-                            figure.appendChild(img);
-                            caption = document.createElement('figcaption');
-                            caption.innerText = "Escribe un copete...";
-                            caption.contentEditable = true;
-                            figure.appendChild(caption);
-                            wrapper = figure;
-                        } else {
-                            caption = wrapper.querySelector('figcaption');
-                            if (!caption) {
-                                caption = document.createElement('figcaption');
-                                caption.innerText = "Escribe un copete...";
-                                caption.contentEditable = true;
-                                wrapper.appendChild(caption);
-                            }
-                        }
-                        menu.remove();
-                        setTimeout(() => caption.focus(), 100);
-                    });
-
-                    // 3. DELETE
-                    menu.querySelector('.delete-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (confirm("¿Eliminar?")) {
-                            if (img.parentElement.tagName.toLowerCase() === 'figure') img.parentElement.remove();
-                            else img.remove();
-                            menu.remove();
-                        }
-                    });
-
-                    // 4. CANCEL
-                    menu.querySelector('.cancel-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        menu.remove();
-                    });
-                };
-            });
-        });
-    };
-    refreshImageHandlers();
-
-    // Close menus handler
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.img-context-menu')) document.querySelectorAll('.img-context-menu').forEach(el => el.remove());
-    });
-
-
-    // ===== 3. GLOBAL SAVE BUTTON =====
-    const saveBtn = document.createElement('button');
-    saveBtn.innerText = "💾 GUARDAR CAMBIOS";
-    saveBtn.style.cssText = `
-        position: fixed; bottom: 30px; right: 30px;
-        background: #28a745; color: white; border: none;
-        padding: 15px 30px; border-radius: 50px;
-        font-weight: bold; box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        cursor: pointer; z-index: 9999; font-size: 16px;
-        transition: transform 0.2s;
-    `;
-    saveBtn.onmouseover = () => saveBtn.style.transform = "scale(1.05)";
-    saveBtn.onmouseout = () => saveBtn.style.transform = "scale(1)";
-
-    saveBtn.onclick = async () => {
-        saveBtn.innerText = "⏳ Guardando...";
-        saveBtn.disabled = true;
-
-        const sections = document.querySelectorAll('[data-section-id]');
-        const updates = [];
-
-        sections.forEach(sec => {
-            const id = sec.dataset.sectionId;
-            let layout = 'default';
-            if (sec.classList.contains('layout-left-img')) layout = 'layout-left-img';
-            else if (sec.classList.contains('layout-right-img')) layout = 'layout-right-img';
-            else if (sec.classList.contains('layout-stacked')) layout = 'layout-stacked';
-            else if (sec.classList.contains('layout-overlay')) layout = 'layout-overlay';
-            else if (sec.classList.contains('layout-minimal')) layout = 'layout-minimal';
-
-            const contentHtml = sec.querySelector('.tematica-content') ? sec.querySelector('.tematica-content').innerHTML : '';
-            const imagesHtml = sec.querySelector('.tematica-image') ? sec.querySelector('.tematica-image').innerHTML : '';
-
-            updates.push({ id, layout, content_html: contentHtml, images_html: imagesHtml });
+    function renderImages() {
+        imageList.innerHTML = '';
+        currentImages.forEach((img, idx) => {
+            const div = document.createElement('div');
+            div.className = 'image-item';
+            div.innerHTML = `
+                <img src="${img.src}" class="image-preview">
+                <div class="image-actions">
+                    <button class="mini-btn move-up" data-index="${idx}">⬆️</button>
+                    <button class="mini-btn move-down" data-index="${idx}">⬇️</button>
+                    <button class="mini-btn delete" data-index="${idx}">🗑️</button>
+                </div>
+            `;
+            imageList.appendChild(div);
         });
 
-        // Send all updates
-        // We can do parallel or serial. Serial is safer for SQLite concurrent writes usually, 
-        // though Node handles it.
-        try {
-            for (const update of updates) {
-                await fetch(`${API_BASE}/save`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(update)
+        // Listeners included inline logic for brevity or attached here
+        imageList.querySelectorAll('.delete').forEach(b => b.onclick = () => {
+            currentImages.splice(b.dataset.index, 1); renderImages(); updatePreview();
+        });
+        imageList.querySelectorAll('.move-up').forEach(b => b.onclick = () => {
+            const i = +b.dataset.index;
+            if (i > 0) { [currentImages[i], currentImages[i - 1]] = [currentImages[i - 1], currentImages[i]]; renderImages(); updatePreview(); }
+        });
+        imageList.querySelectorAll('.move-down').forEach(b => b.onclick = () => {
+            const i = +b.dataset.index;
+            if (i < currentImages.length - 1) { [currentImages[i], currentImages[i + 1]] = [currentImages[i + 1], currentImages[i]]; renderImages(); updatePreview(); }
+        });
+    }
+
+    // === REAL TIME UPDATERS ===
+
+    function updatePreview() {
+        if (!currentSection) return;
+
+        // Images
+        const imgContainer = currentSection.querySelector('.tematica-image');
+        if (imgContainer) {
+            // Auto grid class logic could go here if we wanted to be smart about 1 vs 4 images
+            imgContainer.innerHTML = currentImages.map(i => `<img src="${i.src}">`).join('');
+        }
+    }
+
+    function updateTextPreview() {
+        if (!currentSection) return;
+        const contentContainer = currentSection.querySelector('.tematica-content');
+        if (!contentContainer) return;
+
+        // Reconstruct HTML
+        // 1. H3
+        let html = `<h3>${titleInput.value}</h3>`;
+
+        // 2. Body
+        // Split by double newline for paragraphs
+        const rawText = contentInput.value;
+        const parts = rawText.split(/\n\s*\n/);
+
+        parts.forEach(part => {
+            if (part.trim().startsWith('-')) {
+                // List
+                const lines = part.split('\n');
+                html += '<ul class="tematica-list">';
+                lines.forEach(line => {
+                    if (line.trim().startsWith('-')) {
+                        html += `<li>${line.trim().substring(1).trim()}</li>`;
+                    }
                 });
+                html += '</ul>';
+            } else {
+                // Paragraph
+                if (part.trim().length > 0) html += `<p>${part.trim()}</p>`;
             }
-            saveBtn.innerText = "✅ ¡Guardado!";
-            setTimeout(() => { saveBtn.innerText = "💾 GUARDAR CAMBIOS"; saveBtn.disabled = false; }, 2000);
-        } catch (e) {
-            console.error(e);
-            saveBtn.innerText = "❌ Error";
-            alert("Hubo un error al guardar los cambios.");
-            setTimeout(() => { saveBtn.innerText = "💾 GUARDAR CAMBIOS"; saveBtn.disabled = false; }, 2000);
+        });
+
+        contentContainer.innerHTML = html;
+    }
+
+    // Input Listeners
+    titleInput.addEventListener('input', updateTextPreview);
+    contentInput.addEventListener('input', updateTextPreview);
+
+
+    // === GLOBAL LISTENERS ===
+
+    // Cards Click
+    document.querySelectorAll('.tematica-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.editor-sidebar')) return;
+            openSidebar(card);
+        });
+    });
+
+    // Close
+    document.getElementById('closeSidebar').onclick = closeSidebar;
+    backdrop.onclick = closeSidebar;
+
+    // Layout
+    document.querySelectorAll('.layout-btn').forEach(btn => {
+        btn.onclick = () => {
+            if (!currentSection) return;
+            const layout = btn.dataset.layout;
+            layouts.forEach(l => currentSection.classList.remove(l.id));
+            if (layout !== 'default') {
+                currentSection.classList.remove('reverse');
+                currentSection.classList.add(layout);
+            }
+            document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        };
+    });
+
+    // Image Upload
+    addImageBtn.onclick = () => hiddenInput.click();
+    hiddenInput.onchange = async (e) => {
+        if (e.target.files[0]) {
+            const fd = new FormData();
+            fd.append('image', e.target.files[0]);
+            try {
+                const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
+                if (res.ok) {
+                    const d = await res.json();
+                    currentImages.push({ src: d.url });
+                    renderImages();
+                    updatePreview();
+                }
+            } catch (e) { alert("Error upload"); }
         }
     };
 
-    document.body.appendChild(saveBtn);
+    // Save
+    document.getElementById('sidebarSaveBtn').onclick = async () => {
+        const btn = document.getElementById('sidebarSaveBtn');
+        btn.innerText = "Guardando...";
+        if (!currentSection) return;
+
+        const id = currentSection.dataset.sectionId;
+        // Determine layout
+        let layout = 'default';
+        layouts.forEach(l => { if (currentSection.classList.contains(l.id)) layout = l.id; });
+
+        const contentHtml = currentSection.querySelector('.tematica-content').innerHTML;
+        const imagesHtml = currentSection.querySelector('.tematica-image').innerHTML;
+
+        try {
+            await fetch(`${API_BASE}/save`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, layout, content_html: contentHtml, images_html: imagesHtml })
+            });
+            btn.innerText = "Guardado";
+            setTimeout(() => { btn.innerText = "Guardar Cambios"; closeSidebar(); }, 700);
+        } catch (e) { alert("Error"); }
+    };
+
+    // Init Load
+    try {
+        const res = await fetch(`${API_BASE}/sections`);
+        const { data } = await res.json();
+        data.forEach(s => {
+            const el = document.querySelector(`[data-section-id="${s.id}"]`);
+            if (el) {
+                layouts.forEach(l => el.classList.remove(l.id));
+                if (s.layout && s.layout !== 'default') { el.classList.remove('reverse'); el.classList.add(s.layout); }
+                if (s.content_html) el.querySelector('.tematica-content').innerHTML = s.content_html;
+                if (s.images_html) el.querySelector('.tematica-image').innerHTML = s.images_html;
+            }
+        });
+    } catch (e) { }
+
 });
