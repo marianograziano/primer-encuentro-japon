@@ -77,14 +77,76 @@ document.addEventListener('DOMContentLoaded', async function () {
     const addImageBtn = document.getElementById('sidebarAddImageBtn');
     const hiddenInput = document.getElementById('sidebarHiddenInput');
 
-    // Layouts
+    // Layouts (Low-Fi Wireframes)
     const layouts = [
-        { id: 'default', name: 'Original', icon: '<rect x="2" y="5" width="9" height="14"/><rect x="13" y="5" width="9" height="14"/>' },
-        { id: 'layout-left-img', name: 'Img Izquierda', icon: '<rect x="2" y="5" width="8" height="14" fill="#ccc"/><lines x="12" y="5"/>' },
-        { id: 'layout-right-img', name: 'Img Derecha', icon: '<rect x="14" y="5" width="8" height="14" fill="#ccc"/><lines x="2" y="5"/>' },
-        { id: 'layout-stacked', name: 'Apilado', icon: '<rect x="4" y="2" width="16" height="8" fill="#ccc"/><lines x="4" y="12"/>' },
-        { id: 'layout-overlay', name: 'Fondo', icon: '<rect x="2" y="2" width="20" height="20" fill="#ccc"/><rect x="6" y="8" width="12" height="8" fill="white"/>' },
-        { id: 'layout-minimal', name: 'Minimal', icon: '<text x="2" y="15" font-size="20">A</text>' }
+        {
+            id: 'default',
+            name: 'Original',
+            // Split: Text lines left, Image grid right
+            icon: `
+                <rect x="2" y="4" width="9" height="16" fill="none" stroke="currentColor" stroke-width="1.5" rx="1"/>
+                <line x1="4" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="4" y1="12" x2="8" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <rect x="13" y="4" width="9" height="16" fill="#ccc" stroke="none" rx="1"/>
+                <path d="M15 10L17 8L20 11" stroke="white" stroke-width="1.5" fill="none"/>
+            `
+        },
+        {
+            id: 'layout-left-img',
+            name: 'Img Izq',
+            // Image Left (Solid), Text Right (Lines)
+            icon: `
+                <rect x="2" y="4" width="9" height="16" fill="#ccc" stroke="none" rx="1"/>
+                <path d="M4 10L6 8L9 11" stroke="white" stroke-width="1.5" fill="none"/>
+                <rect x="13" y="4" width="9" height="16" fill="none" stroke="currentColor" stroke-width="1.5" rx="1"/>
+                <line x1="15" y1="8" x2="20" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="15" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="15" y1="16" x2="20" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            `
+        },
+        {
+            id: 'layout-right-img',
+            name: 'Img Der',
+            // Text Left (Lines), Image Right (Solid)
+            icon: `
+                <rect x="13" y="4" width="9" height="16" fill="#ccc" stroke="none" rx="1"/>
+                <path d="M15 10L17 8L20 11" stroke="white" stroke-width="1.5" fill="none"/>
+                <rect x="2" y="4" width="9" height="16" fill="none" stroke="currentColor" stroke-width="1.5" rx="1"/>
+                <line x1="4" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="4" y1="12" x2="8" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="4" y1="16" x2="9" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            `
+        },
+        {
+            id: 'layout-stacked',
+            name: 'Apilado',
+            // Image Top (Solid), Text Bottom (Lines)
+            icon: `
+                <rect x="4" y="2" width="16" height="8" fill="#ccc" stroke="none" rx="1"/>
+                <rect x="4" y="12" width="16" height="10" fill="none" stroke="currentColor" stroke-width="1.5" rx="1"/>
+                <line x1="6" y1="16" x2="18" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="6" y1="19" x2="14" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            `
+        },
+        {
+            id: 'layout-overlay',
+            name: 'Fondo',
+            // Full BG Image, Small Text Card Center
+            icon: `
+                <rect x="2" y="3" width="20" height="18" fill="#ccc" stroke="none" rx="2"/>
+                <rect x="6" y="8" width="12" height="8" fill="white" stroke="none" rx="1"/>
+                <line x1="8" y1="12" x2="16" y2="12" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+            `
+        },
+        {
+            id: 'layout-minimal',
+            name: 'Minimal',
+            // Big Text Left, No Image or Small
+            icon: `
+                <text x="3" y="16" font-family="sans-serif" font-weight="900" font-size="14" fill="currentColor">Aa</text>
+                <rect x="14" y="6" width="6" height="12" fill="none" stroke="currentColor" stroke-width="1" rx="1"/>
+            `
+        }
     ];
 
     layoutContainer.innerHTML = layouts.map(l => `
