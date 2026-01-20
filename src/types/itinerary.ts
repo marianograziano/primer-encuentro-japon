@@ -5,15 +5,28 @@ export interface Coordinates {
   lng: number;
 }
 
+export interface MarkerContent {
+  title: string;
+  subtitle: string;
+  description: string;
+  imageUrl: string;
+  highlights: string[];
+}
+
 export interface DayItinerary {
   id: string;
   day: number;
   location: string;
   title: string;
+  description: string;
   activities: string[];
   coordinates: Coordinates;
   iconName: string;
   color: string;
+  markerContent: MarkerContent;
+  tips: string;
+  duration: string;
+  transport: string;
 }
 
 export interface ItineraryState {
