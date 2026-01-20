@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <div class="control-group">
                     <span class="group-label">Distribución Visual</span>
                     <div class="layout-options" id="sidebarLayouts"></div>
+                    <div id="layoutWarning" style="margin-top:10px; padding:10px; background:#fff3cd; color:#856404; border-radius:6px; font-size:12px; display:none; border:1px solid #ffeeba;"></div>
                 </div>
 
                 <!-- Text Content -->
@@ -227,6 +228,36 @@ document.addEventListener('DOMContentLoaded', async function () {
         renderImages();
     }
 
+    function checkLayoutBestPractices() {
+        const warningEl = document.getElementById('layoutWarning');
+        const currentLayoutBtn = document.querySelector('.layout-btn.active');
+        const layoutId = currentLayoutBtn ? currentLayoutBtn.dataset.layout : 'default';
+        const imgCount = currentImages.length;
+
+        let msg = '';
+
+        if (layoutId === 'layout-stacked' || layoutId === 'layout-overlay') {
+            if (imgCount > 1) {
+                msg = `⚠️ El diseño <strong>${layoutId === 'layout-stacked' ? 'Apilado' : 'Fondo'}</strong> funciona mejor con <strong>1 sola imagen</strong>. Tienes ${imgCount}.`;
+            }
+        }
+        else if (layoutId === 'layout-minimal') {
+            if (imgCount > 0) {
+                msg = "ℹ️ El diseño <strong>Minimal</strong> suele ocultar las imágenes para priorizar el texto.";
+            }
+        }
+        else if ((layoutId === 'default' || layoutId.includes('img')) && imgCount === 0) {
+            msg = "💡 Este diseño se ve vacío sin imágenes. ¡Sube alguna!";
+        }
+
+        if (msg) {
+            warningEl.innerHTML = msg;
+            warningEl.style.display = 'block';
+        } else {
+            warningEl.style.display = 'none';
+        }
+    }
+
     function renderImages() {
         imageList.innerHTML = '';
         currentImages.forEach((img, idx) => {
@@ -253,160 +284,160 @@ document.addEventListener('DOMContentLoaded', async function () {
         imageList.querySelectorAll('.move-down').forEach(b => b.onclick = () => {
             const i = +b.dataset.index;
             if (i < currentImages.length - 1) { [currentImages[i], currentImages[i + 1]] = [currentImages[i + 1], currentImages[i]]; renderImages(); updatePreview(); }
-        });
-    }
+            checkLayoutBestPractices(); // Run check on update, outside loops
+        }
 
     function updatePreview() {
-        if (!currentSection) return;
-        const imgContainer = currentSection.querySelector('.tematica-image') || currentSection.querySelector('.spiritual-gallery');
-        if (imgContainer) {
-            imgContainer.innerHTML = currentImages.map(i => `<img src="${i.src}">`).join('');
-        }
-    }
+                if (!currentSection) return;
+                const imgContainer = currentSection.querySelector('.tematica-image') || currentSection.querySelector('.spiritual-gallery');
+                if (imgContainer) {
+                    imgContainer.innerHTML = currentImages.map(i => `<img src="${i.src}">`).join('');
+                }
+            }
 
     function updateTextPreview() {
-        if (!currentSection) return;
-        const contentContainer = currentSection.querySelector('.tematica-content');
-        if (!contentContainer) return;
+                if (!currentSection) return;
+                const contentContainer = currentSection.querySelector('.tematica-content');
+                if (!contentContainer) return;
 
-        let html = `<h3>${titleInput.value}</h3>`;
-        const rawText = contentInput.value;
-        const parts = rawText.split(/\n\s*\n/);
+                let html = `<h3>${titleInput.value}</h3>`;
+                const rawText = contentInput.value;
+                const parts = rawText.split(/\n\s*\n/);
 
-        parts.forEach(part => {
-            if (part.trim().startsWith('-')) {
-                const lines = part.split('\n');
-                html += '<ul class="tematica-list">';
-                lines.forEach(line => {
-                    if (line.trim().startsWith('-')) {
-                        html += `<li>${line.trim().substring(1).trim()}</li>`;
+                parts.forEach(part => {
+                    if (part.trim().startsWith('-')) {
+                        const lines = part.split('\n');
+                        html += '<ul class="tematica-list">';
+                        lines.forEach(line => {
+                            if (line.trim().startsWith('-')) {
+                                html += `<li>${line.trim().substring(1).trim()}</li>`;
+                            }
+                        });
+                        html += '</ul>';
+                    } else {
+                        if (part.trim().length > 0) html += `<p>${part.trim()}</p>`;
                     }
                 });
-                html += '</ul>';
-            } else {
-                if (part.trim().length > 0) html += `<p>${part.trim()}</p>`;
-            }
-        });
 
-        contentContainer.innerHTML = html;
-    }
+                contentContainer.innerHTML = html;
+            }
 
     titleInput.addEventListener('input', updateTextPreview);
-    contentInput.addEventListener('input', updateTextPreview);
+        contentInput.addEventListener('input', updateTextPreview);
 
-    document.querySelectorAll('.tematica-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-            if (e.target.closest('.editor-sidebar')) return;
-            openSidebar(card);
+        document.querySelectorAll('.tematica-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.editor-sidebar')) return;
+                openSidebar(card);
+            });
         });
-    });
 
-    document.getElementById('closeSidebar').onclick = closeSidebar;
-    backdrop.onclick = closeSidebar;
+        document.getElementById('closeSidebar').onclick = closeSidebar;
+        backdrop.onclick = closeSidebar;
 
-    const logoutHandler = async () => {
-        if (confirm("¿Estás seguro de que quieres salir del modo edición? Tendrás que ingresar la contraseña nuevamente.")) {
-            await fetch('/api/logout', { method: 'POST' });
-            window.location.href = '/';
-        }
-    };
-    document.getElementById('floatingExitBtn').onclick = logoutHandler;
-    document.getElementById('sidebarLogoutBtn').onclick = logoutHandler;
-
-    document.querySelectorAll('.layout-btn').forEach(btn => {
-        btn.onclick = () => {
-            if (!currentSection) return;
-            const layout = btn.dataset.layout;
-            layouts.forEach(l => currentSection.classList.remove(l.id));
-            if (layout !== 'default') {
-                currentSection.classList.remove('reverse');
-                currentSection.classList.add(layout);
+        const logoutHandler = async () => {
+            if (confirm("¿Estás seguro de que quieres salir del modo edición? Tendrás que ingresar la contraseña nuevamente.")) {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = '/';
             }
-            document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
         };
-    });
+        document.getElementById('floatingExitBtn').onclick = logoutHandler;
+        document.getElementById('sidebarLogoutBtn').onclick = logoutHandler;
 
-    addImageBtn.onclick = () => hiddenInput.click();
-    hiddenInput.onchange = async (e) => {
-        if (e.target.files[0]) {
-            const fd = new FormData();
-            fd.append('image', e.target.files[0]);
+        document.querySelectorAll('.layout-btn').forEach(btn => {
+            btn.onclick = () => {
+                if (!currentSection) return;
+                const layout = btn.dataset.layout;
+                layouts.forEach(l => currentSection.classList.remove(l.id));
+                if (layout !== 'default') {
+                    currentSection.classList.remove('reverse');
+                    currentSection.classList.add(layout);
+                }
+                document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+        });
+
+        addImageBtn.onclick = () => hiddenInput.click();
+        hiddenInput.onchange = async (e) => {
+            if (e.target.files[0]) {
+                const fd = new FormData();
+                fd.append('image', e.target.files[0]);
+                try {
+                    const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
+                    if (handleAuthError(res)) return;
+
+                    if (res.ok) {
+                        const d = await res.json();
+                        currentImages.push({ src: d.url });
+                        renderImages();
+                        updatePreview();
+                    } else {
+                        const errText = await res.text();
+                        alert("Error subida: " + res.status + " " + errText);
+                        console.error("Upload error", res.status, errText);
+                    }
+                } catch (e) { alert("Error de red al subir imagen"); }
+            }
+        };
+
+        document.getElementById('sidebarSaveBtn').onclick = async () => {
+            const btn = document.getElementById('sidebarSaveBtn');
+            btn.innerText = "Guardando...";
+            if (!currentSection) return;
+
+            const id = currentSection.dataset.sectionId;
+            if (!id) { alert("Error: Card ID missing"); return; }
+
+            let layout = 'default';
+            layouts.forEach(l => { if (currentSection.classList.contains(l.id)) layout = l.id; });
+
+            const c = currentSection.querySelector('.tematica-content');
+            const i = currentSection.querySelector('.tematica-image');
+
+            if (!c || !i) {
+                alert("Error: Missing containers.");
+                return;
+            }
+
+            const contentHtml = c.innerHTML;
+            const imagesHtml = i.innerHTML;
+
             try {
-                const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
+                const res = await fetch(`${API_BASE}/save`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, layout, content_html: contentHtml, images_html: imagesHtml })
+                });
+
                 if (handleAuthError(res)) return;
 
                 if (res.ok) {
-                    const d = await res.json();
-                    currentImages.push({ src: d.url });
-                    renderImages();
-                    updatePreview();
+                    btn.innerText = "Guardado";
+                    setTimeout(() => { btn.innerText = "Guardar Cambios"; closeSidebar(); }, 700);
                 } else {
-                    const errText = await res.text();
-                    alert("Error subida: " + res.status + " " + errText);
-                    console.error("Upload error", res.status, errText);
+                    alert("Error servidor: " + res.status);
                 }
-            } catch (e) { alert("Error de red al subir imagen"); }
-        }
-    };
-
-    document.getElementById('sidebarSaveBtn').onclick = async () => {
-        const btn = document.getElementById('sidebarSaveBtn');
-        btn.innerText = "Guardando...";
-        if (!currentSection) return;
-
-        const id = currentSection.dataset.sectionId;
-        if (!id) { alert("Error: Card ID missing"); return; }
-
-        let layout = 'default';
-        layouts.forEach(l => { if (currentSection.classList.contains(l.id)) layout = l.id; });
-
-        const c = currentSection.querySelector('.tematica-content');
-        const i = currentSection.querySelector('.tematica-image');
-
-        if (!c || !i) {
-            alert("Error: Missing containers.");
-            return;
-        }
-
-        const contentHtml = c.innerHTML;
-        const imagesHtml = i.innerHTML;
+            } catch (e) { alert("Error conexión"); }
+        };
 
         try {
-            const res = await fetch(`${API_BASE}/save`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, layout, content_html: contentHtml, images_html: imagesHtml })
+            const res = await fetch(`${API_BASE}/sections`);
+            const { data } = await res.json();
+            data.forEach(s => {
+                const el = document.querySelector(`[data-section-id="${s.id}"]`);
+                if (el) {
+                    layouts.forEach(l => el.classList.remove(l.id));
+                    if (s.layout && s.layout !== 'default') { el.classList.remove('reverse'); el.classList.add(s.layout); }
+                    if (s.content_html) {
+                        const c = el.querySelector('.tematica-content');
+                        if (c) c.innerHTML = s.content_html;
+                    }
+                    if (s.images_html) {
+                        const i = el.querySelector('.tematica-image');
+                        if (i) i.innerHTML = s.images_html;
+                    }
+                }
             });
-
-            if (handleAuthError(res)) return;
-
-            if (res.ok) {
-                btn.innerText = "Guardado";
-                setTimeout(() => { btn.innerText = "Guardar Cambios"; closeSidebar(); }, 700);
-            } else {
-                alert("Error servidor: " + res.status);
-            }
-        } catch (e) { alert("Error conexión"); }
-    };
-
-    try {
-        const res = await fetch(`${API_BASE}/sections`);
-        const { data } = await res.json();
-        data.forEach(s => {
-            const el = document.querySelector(`[data-section-id="${s.id}"]`);
-            if (el) {
-                layouts.forEach(l => el.classList.remove(l.id));
-                if (s.layout && s.layout !== 'default') { el.classList.remove('reverse'); el.classList.add(s.layout); }
-                if (s.content_html) {
-                    const c = el.querySelector('.tematica-content');
-                    if (c) c.innerHTML = s.content_html;
-                }
-                if (s.images_html) {
-                    const i = el.querySelector('.tematica-image');
-                    if (i) i.innerHTML = s.images_html;
-                }
-            }
-        });
-    } catch (e) { }
-});
+        } catch (e) { }
+    });
