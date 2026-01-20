@@ -1,9 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log("Theme Editor Initialized - Clean Mode");
+    console.log("Theme Editor Initialized - Robust Mode");
     const API_BASE = '/api';
 
-    // Inject Sidebar HTML (Simplified)
+    // Inject Sidebar HTML
     const sidebarHtml = `
         <div class="overlay-backdrop" id="editorBackdrop"></div>
         <div class="editor-sidebar" id="editorSidebar">
@@ -87,48 +87,30 @@ document.addEventListener('DOMContentLoaded', async function () {
         const currentLayout = layouts.find(l => section.classList.contains(l.id))?.id || 'default';
         document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.layout === currentLayout));
 
-        // 2. Text Content (Extraction)
+        // 2. Text Content (Defensive)
         const h3 = section.querySelector('h3');
         titleInput.value = h3 ? h3.innerText : '';
 
-        // Extract paragraphs cleanly
-        // We look for <p> and <li> to convert to plain text with newlines
-        // This strips existing bold/italic HTML which might be annoying if user wants to keep it,
-        // but ensures clean font rendering. 
-        // Improvement: Keep innerHTML but strip wrapper tags?
-        // Let's use innerText but respect paragraphs as newlines.
         const contentContainer = section.querySelector('.tematica-content');
         if (contentContainer) {
-            // Filter out the H3 and UL/LI structure mess, focus on Ps
-            // Or just grab all Ps
-            const paras = Array.from(contentContainer.querySelectorAll('p'));
-            const listItems = Array.from(contentContainer.querySelectorAll('li'));
-
-            // Allow user to edit raw text? No, too hard.
-            // Let's just grab text content of paragraphs combined with newlines.
-
-            // BETTER APPROACH: Clone content, remove H3, get innerHTML of rest?
-            // This preserves <strong> tags if they exist.
             const clone = contentContainer.cloneNode(true);
             const title = clone.querySelector('h3');
             if (title) title.remove();
 
-            // Clean up: Replace <p> with nothing (just break lines), replace <br> with newline layout
-            // Regex to convert HTML to "Editable Text"
-            let html = clone.innerHTML.trim();
-            // Replace <p>...</p> with text + \n\n
-            // This is complex. 
-            // SIMPLEST: multiple textareas? No.
-            // Just one textarea. We will inject <p> tags on save.
-
-            // For now, let's grab textContent. It loses bolding. 
-            // If user wants bolding, we can allow <b> tags in textarea.
-            contentInput.value = paras.map(p => p.innerText).join('\n\n');
-
-            // Append lists if any
-            if (listItems.length > 0) {
-                contentInput.value += '\n\n' + listItems.map(li => '- ' + li.innerText).join('\n');
+            // Convert paragraphs to text
+            const paras = Array.from(clone.querySelectorAll('p, li'));
+            if (paras.length > 0) {
+                contentInput.value = paras.map(p => {
+                    // Check if it's list item and add dash if needed?
+                    if (p.tagName === 'LI') return '- ' + p.innerText;
+                    return p.innerText;
+                }).join('\n\n');
+            } else {
+                // Fallback for simple text
+                contentInput.value = clone.innerText.trim();
             }
+        } else {
+            contentInput.value = "";
         }
 
         // 3. Images
@@ -144,7 +126,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     function loadImages() {
         if (!currentSection) return;
-        const container = currentSection.querySelector('.tematica-image');
+        // Try multiple selectors or fallback
+        const container = currentSection.querySelector('.tematica-image') || currentSection.querySelector('.spiritual-gallery') || currentSection.querySelector('.zen-card-image');
+
         currentImages = [];
         if (container) {
             container.querySelectorAll('img').forEach(img => {
@@ -170,7 +154,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             imageList.appendChild(div);
         });
 
-        // Listeners included inline logic for brevity or attached here
+        // Listeners for list logic
         imageList.querySelectorAll('.delete').forEach(b => b.onclick = () => {
             currentImages.splice(b.dataset.index, 1); renderImages(); updatePreview();
         });
@@ -188,12 +172,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     function updatePreview() {
         if (!currentSection) return;
-
-        // Images
-        const imgContainer = currentSection.querySelector('.tematica-image');
+        const imgContainer = currentSection.querySelector('.tematica-image') || currentSection.querySelector('.spiritual-gallery');
         if (imgContainer) {
-            // Auto grid class logic could go here if we wanted to be smart about 1 vs 4 images
             imgContainer.innerHTML = currentImages.map(i => `<img src="${i.src}">`).join('');
+            // Ensure grid class is present for visuals if needed
+            // If we stripped specific classes like .literature-grid, we might lose styling.
+            // editor.css should enforce a default grid on .tematica-image img
         }
     }
 
@@ -202,18 +186,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         const contentContainer = currentSection.querySelector('.tematica-content');
         if (!contentContainer) return;
 
-        // Reconstruct HTML
-        // 1. H3
         let html = `<h3>${titleInput.value}</h3>`;
-
-        // 2. Body
-        // Split by double newline for paragraphs
         const rawText = contentInput.value;
         const parts = rawText.split(/\n\s*\n/);
 
         parts.forEach(part => {
+            // Basic list detection
             if (part.trim().startsWith('-')) {
-                // List
                 const lines = part.split('\n');
                 html += '<ul class="tematica-list">';
                 lines.forEach(line => {
@@ -223,7 +202,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 });
                 html += '</ul>';
             } else {
-                // Paragraph
                 if (part.trim().length > 0) html += `<p>${part.trim()}</p>`;
             }
         });
@@ -246,11 +224,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
-    // Close
     document.getElementById('closeSidebar').onclick = closeSidebar;
     backdrop.onclick = closeSidebar;
 
-    // Layout
     document.querySelectorAll('.layout-btn').forEach(btn => {
         btn.onclick = () => {
             if (!currentSection) return;
@@ -290,12 +266,26 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!currentSection) return;
 
         const id = currentSection.dataset.sectionId;
-        // Determine layout
+        if (!id) {
+            alert("Error: Card ID missing");
+            return;
+        }
+
         let layout = 'default';
         layouts.forEach(l => { if (currentSection.classList.contains(l.id)) layout = l.id; });
 
-        const contentHtml = currentSection.querySelector('.tematica-content').innerHTML;
-        const imagesHtml = currentSection.querySelector('.tematica-image').innerHTML;
+        const c = currentSection.querySelector('.tematica-content');
+        const i = currentSection.querySelector('.tematica-image');
+
+        if (!c || !i) {
+            alert("Error: Missing content/image containers. Cannot save.");
+            console.error("Missing containers", c, i);
+            btn.innerText = "Guardar Cambios (Error)";
+            return;
+        }
+
+        const contentHtml = c.innerHTML;
+        const imagesHtml = i.innerHTML;
 
         try {
             await fetch(`${API_BASE}/save`, {
@@ -305,10 +295,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
             btn.innerText = "Guardado";
             setTimeout(() => { btn.innerText = "Guardar Cambios"; closeSidebar(); }, 700);
-        } catch (e) { alert("Error"); }
+        } catch (e) {
+            console.error(e);
+            alert("Error al conectar con servidor");
+        }
     };
 
-    // Init Load
+    // Init Load logic logic... (omitted detailed restore logic for brevity in this step update, assuming existing is fine or will redraw)
+    // Actually, I should keep the Init Load part.
     try {
         const res = await fetch(`${API_BASE}/sections`);
         const { data } = await res.json();
@@ -317,8 +311,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (el) {
                 layouts.forEach(l => el.classList.remove(l.id));
                 if (s.layout && s.layout !== 'default') { el.classList.remove('reverse'); el.classList.add(s.layout); }
-                if (s.content_html) el.querySelector('.tematica-content').innerHTML = s.content_html;
-                if (s.images_html) el.querySelector('.tematica-image').innerHTML = s.images_html;
+                if (s.content_html) {
+                    const c = el.querySelector('.tematica-content');
+                    if (c) c.innerHTML = s.content_html;
+                }
+                if (s.images_html) {
+                    const i = el.querySelector('.tematica-image');
+                    if (i) i.innerHTML = s.images_html;
+                }
             }
         });
     } catch (e) { }

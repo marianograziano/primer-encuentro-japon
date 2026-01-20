@@ -271,3 +271,31 @@
     /* Highlight ring */
     z-index: 10;
 }
+/* ===== SMART IMAGE GRID ===== */
+/* Ensures images uploaded via sidebar look good without manual classes */
+.tematica-image {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; 
+    align-content: center;
+    width: 100%;
+}
+
+/* If only 1 image, full width */
+.tematica-image img:only-child {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    max-height: 500px;
+    border-radius: 8px;
+}
+
+/* Specific tweaks for layouts */
+.tematica-card.layout-stacked .tematica-image {
+    min-height: 400px;
+}
+.tematica-card.layout-stacked .tematica-image img {
+    height: 100%;
+    object-fit: cover;
+}
