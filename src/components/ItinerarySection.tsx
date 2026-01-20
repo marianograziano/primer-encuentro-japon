@@ -2,9 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { DayCard } from "./DayCard";
 import { JourneyMap } from "./JourneyMap";
-import { itineraryData } from "@/data/itinerary";
+import { useItineraryStore } from "@/store/itineraryStore";
 
 export function ItinerarySection() {
+  const { days } = useItineraryStore();
   const [activeDay, setActiveDay] = useState<number | null>(1);
 
   const handleDayClick = (day: number) => {
@@ -32,9 +33,9 @@ export function ItinerarySection() {
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Timeline */}
           <div className="lg:col-span-3 space-y-4">
-            {itineraryData.map((day, index) => (
+            {days.map((day, index) => (
               <DayCard
-                key={day.day}
+                key={day.id}
                 day={day}
                 isActive={activeDay === day.day}
                 onClick={() => handleDayClick(day.day)}
@@ -45,7 +46,7 @@ export function ItinerarySection() {
 
           {/* Map */}
           <div className="lg:col-span-2 hidden lg:block">
-            <JourneyMap activeDay={activeDay} />
+            <JourneyMap activeDay={activeDay} days={days} />
           </div>
         </div>
       </div>
