@@ -3,20 +3,18 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files first to leverage cache
 COPY package*.json ./
-
-# Install dependencies (will include sqlite3, express, etc)
 RUN npm install
 
-# Copy the rest of the application
 COPY . .
 
-# Create uploads directory
-RUN mkdir -p uploads
+# Create uploads directory and set permissions
+RUN mkdir -p uploads && \
+    chown -R node:node /app
 
-# Expose port (internal)
+# Switch to non-root user
+USER node
+
 EXPOSE 3000
 
-# Start server
 CMD ["node", "server.js"]

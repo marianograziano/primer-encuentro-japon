@@ -1,7 +1,20 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log("Theme Editor Initialized - Robust Mode");
+    console.log("Theme Editor Initialized - Secure Mode");
     const API_BASE = '/api';
+
+    // 0. AUTH CHECK FIRST
+    try {
+        const authRes = await fetch(`${API_BASE}/me`);
+        if (authRes.ok) {
+            const authData = await authRes.json();
+            if (!authData.isAdmin) {
+                window.location.href = '/login.html';
+                return; // Stop execution
+            }
+        }
+    } catch (e) { console.error('Auth check fail', e); }
+
 
     // Inject Sidebar HTML
     const sidebarHtml = `
@@ -39,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             </div>
             <div class="sidebar-footer">
                 <button class="sidebar-save-btn" id="sidebarSaveBtn">Guardar Cambios</button>
+                <button style="width:100%; margin-top:10px; background:#ddd; border:none; padding:10px; border-radius:8px; display:block; cursor:pointer;" onclick="fetch('/api/logout', {method:'POST'}).then(()=>window.location.href='/login.html')">Cerrar Sesión</button>
             </div>
         </div>
     `;
@@ -77,6 +91,15 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // ===== LOGIC =====
 
+    function handleAuthError(res) {
+        if (res.status === 401) {
+            alert("Tu sesión ha expirado. Por favor ingresa nuevamente.");
+            window.location.href = '/login.html';
+            return true;
+        }
+        return false;
+    }
+
     function openSidebar(section) {
         currentSection = section;
         section.classList.add('editing-active');
@@ -106,7 +129,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                     return p.innerText;
                 }).join('\n\n');
             } else {
-                // Fallback for simple text
                 contentInput.value = clone.innerText.trim();
             }
         } else {
@@ -126,9 +148,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     function loadImages() {
         if (!currentSection) return;
-        // Try multiple selectors or fallback
         const container = currentSection.querySelector('.tematica-image') || currentSection.querySelector('.spiritual-gallery') || currentSection.querySelector('.zen-card-image');
-
         currentImages = [];
         if (container) {
             container.querySelectorAll('img').forEach(img => {
@@ -146,15 +166,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             div.innerHTML = `
                 <img src="${img.src}" class="image-preview">
                 <div class="image-actions">
-                    <button class="mini-btn move-up" data-index="${idx}">⬆️</button>
-                    <button class="mini-btn move-down" data-index="${idx}">⬇️</button>
-                    <button class="mini-btn delete" data-index="${idx}">🗑️</button>
+                     <button class="mini-btn move-up" data-index="${idx}">⬆️</button>
+                     <button class="mini-btn move-down" data-index="${idx}">⬇️</button>
+                     <button class="mini-btn delete" data-index="${idx}">🗑️</button>
                 </div>
             `;
             imageList.appendChild(div);
         });
 
-        // Listeners for list logic
         imageList.querySelectorAll('.delete').forEach(b => b.onclick = () => {
             currentImages.splice(b.dataset.index, 1); renderImages(); updatePreview();
         });
@@ -168,16 +187,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // === REAL TIME UPDATERS ===
-
     function updatePreview() {
         if (!currentSection) return;
         const imgContainer = currentSection.querySelector('.tematica-image') || currentSection.querySelector('.spiritual-gallery');
         if (imgContainer) {
             imgContainer.innerHTML = currentImages.map(i => `<img src="${i.src}">`).join('');
-            // Ensure grid class is present for visuals if needed
-            // If we stripped specific classes like .literature-grid, we might lose styling.
-            // editor.css should enforce a default grid on .tematica-image img
         }
     }
 
@@ -191,7 +205,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         const parts = rawText.split(/\n\s*\n/);
 
         parts.forEach(part => {
-            // Basic list detection
             if (part.trim().startsWith('-')) {
                 const lines = part.split('\n');
                 html += '<ul class="tematica-list">';
@@ -209,14 +222,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         contentContainer.innerHTML = html;
     }
 
-    // Input Listeners
     titleInput.addEventListener('input', updateTextPreview);
     contentInput.addEventListener('input', updateTextPreview);
 
-
-    // === GLOBAL LISTENERS ===
-
-    // Cards Click
     document.querySelectorAll('.tematica-card').forEach(card => {
         card.addEventListener('click', (e) => {
             if (e.target.closest('.editor-sidebar')) return;
@@ -241,7 +249,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         };
     });
 
-    // Image Upload
     addImageBtn.onclick = () => hiddenInput.click();
     hiddenInput.onchange = async (e) => {
         if (e.target.files[0]) {
@@ -249,6 +256,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             fd.append('image', e.target.files[0]);
             try {
                 const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
+                if (handleAuthError(res)) return;
+
                 if (res.ok) {
                     const d = await res.json();
                     currentImages.push({ src: d.url });
@@ -259,24 +268,17 @@ document.addEventListener('DOMContentLoaded', async function () {
                     alert("Error subida: " + res.status + " " + errText);
                     console.error("Upload error", res.status, errText);
                 }
-            } catch (e) {
-                console.error(e);
-                alert("Error de red al subir imagen");
-            }
+            } catch (e) { alert("Error de red al subir imagen"); }
         }
     };
 
-    // Save
     document.getElementById('sidebarSaveBtn').onclick = async () => {
         const btn = document.getElementById('sidebarSaveBtn');
         btn.innerText = "Guardando...";
         if (!currentSection) return;
 
         const id = currentSection.dataset.sectionId;
-        if (!id) {
-            alert("Error: Card ID missing");
-            return;
-        }
+        if (!id) { alert("Error: Card ID missing"); return; }
 
         let layout = 'default';
         layouts.forEach(l => { if (currentSection.classList.contains(l.id)) layout = l.id; });
@@ -285,9 +287,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const i = currentSection.querySelector('.tematica-image');
 
         if (!c || !i) {
-            alert("Error: Missing content/image containers. Cannot save.");
-            console.error("Missing containers", c, i);
-            btn.innerText = "Guardar Cambios (Error)";
+            alert("Error: Missing containers.");
             return;
         }
 
@@ -295,21 +295,23 @@ document.addEventListener('DOMContentLoaded', async function () {
         const imagesHtml = i.innerHTML;
 
         try {
-            await fetch(`${API_BASE}/save`, {
+            const res = await fetch(`${API_BASE}/save`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id, layout, content_html: contentHtml, images_html: imagesHtml })
             });
-            btn.innerText = "Guardado";
-            setTimeout(() => { btn.innerText = "Guardar Cambios"; closeSidebar(); }, 700);
-        } catch (e) {
-            console.error(e);
-            alert("Error al conectar con servidor");
-        }
+
+            if (handleAuthError(res)) return;
+
+            if (res.ok) {
+                btn.innerText = "Guardado";
+                setTimeout(() => { btn.innerText = "Guardar Cambios"; closeSidebar(); }, 700);
+            } else {
+                alert("Error servidor: " + res.status);
+            }
+        } catch (e) { alert("Error conexión"); }
     };
 
-    // Init Load logic logic... (omitted detailed restore logic for brevity in this step update, assuming existing is fine or will redraw)
-    // Actually, I should keep the Init Load part.
     try {
         const res = await fetch(`${API_BASE}/sections`);
         const { data } = await res.json();
@@ -329,5 +331,4 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
         });
     } catch (e) { }
-
 });

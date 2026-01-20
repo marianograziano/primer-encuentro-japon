@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Editor - Viajemos a Japón</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #fdfdfd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(139, 149, 86, 0.15);
+            text-align: center;
+            width: 100%;
+            max-width: 350px;
+            border: 1px solid #eee;
+        }
+
+        .login-card h2 {
+            margin-bottom: 25px;
+            color: #8b9556;
+            /* Verde Japón del sitio */
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            box-sizing: border-box;
+            /* Fix padding issue */
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="password"]:focus {
+            border-color: #8b9556;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #8b9556;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .error-msg {
+            color: #d9534f;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+        <h2>Editor Login</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" required placeholder="Ingresa tu clave de acceso">
+            </div>
+            <button type="submit" id="btnSubmit">Ingresar</button>
+            <div class="error-msg" id="errorMsg">Contraseña incorrecta</div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pwd = document.getElementById('password').value;
+            const btn = document.getElementById('btnSubmit');
+            const err = document.getElementById('errorMsg');
+
+            btn.classList.add('loading');
+            btn.innerText = "Verificando...";
+            err.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pwd })
+                });
+
+                if (res.ok) {
+                    window.location.href = '/editor.html';
+                } else {
+                    err.style.display = 'block';
+                    btn.classList.remove('loading');
+                    btn.innerText = "Ingresar";
+                }
+            } catch (error) {
+                console.error(error);
+                err.innerText = "Error de conexión";
+                err.style.display = 'block';
+                btn.classList.remove('loading');
+                btn.innerText = "Ingresar";
+            }
+        });
+    </script>
+
+</body>
+
+</html>
