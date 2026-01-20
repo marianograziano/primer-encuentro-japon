@@ -1,6 +1,22 @@
 import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
-import { includedItems, notIncludedItems } from "@/data/itinerary";
+
+const includedItems = [
+  { title: "Aéreo", description: "Desde Buenos Aires a Tokio (clase turista, 1 valija incluida)" },
+  { title: "Hoteles Seleccionados", description: "2 noches en Tokio (Asakusa), 1 noche en Fuji (Kawaguchiko), 4 noches en Kioto, 2 noches en Osaka, 5 noches en Tokio" },
+  { title: "Transporte Logístico", description: "Trenes, buses y metro entre ciudades" },
+  { title: "Tren Bala", description: "Trayecto Osaka – Tokio en Shinkansen" },
+  { title: "Tarjeta Suica/Pasmo", description: "Con 5.000 yenes para traslados locales" },
+  { title: "Acompañamiento", description: "Guía personalizado durante todas las actividades" },
+];
+
+const notIncludedItems = [
+  { title: "Alimentación", description: "Almuerzos y cenas (libres para explorar)" },
+  { title: "Traslados Locales", description: "Buses y metro fuera de lo previsto" },
+  { title: "Seguro de Viaje", description: "Obligatorio contratar antes de la salida" },
+  { title: "Entradas", description: "Acceso a templos, museos o atracciones" },
+  { title: "Extras", description: "Gastos personales y actividades opcionales" },
+];
 
 export function IncludesSection() {
   return (

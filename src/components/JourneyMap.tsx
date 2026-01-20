@@ -1,40 +1,61 @@
 import { motion } from "framer-motion";
+import { DynamicIcon } from "./editor/DynamicIcon";
+import type { DayItinerary } from "@/types/itinerary";
 
-const locations = [
-  { name: "Tokio", x: 85, y: 35, days: "1-2, 10-12, 14" },
-  { name: "Fuji", x: 70, y: 55, days: "3" },
-  { name: "Kioto", x: 35, y: 50, days: "4-6, 8" },
-  { name: "Nara", x: 40, y: 60, days: "7" },
-  { name: "Osaka", x: 30, y: 55, days: "8-9" },
-  { name: "Kamakura", x: 88, y: 45, days: "13" },
-];
+// Japan bounds (approximate)
+const mapBounds = {
+  minLat: 33.5,
+  maxLat: 36.5,
+  minLng: 134,
+  maxLng: 141,
+};
 
-const paths = [
-  { from: 0, to: 1 }, // Tokio -> Fuji
-  { from: 1, to: 2 }, // Fuji -> Kioto
-  { from: 2, to: 3 }, // Kioto -> Nara
-  { from: 3, to: 4 }, // Nara/Kioto -> Osaka
-  { from: 4, to: 0 }, // Osaka -> Tokio
-  { from: 0, to: 5 }, // Tokio -> Kamakura
-];
+function coordsToPercent(lat: number, lng: number) {
+  const x = ((lng - mapBounds.minLng) / (mapBounds.maxLng - mapBounds.minLng)) * 100;
+  const y = ((mapBounds.maxLat - lat) / (mapBounds.maxLat - mapBounds.minLat)) * 100;
+  return { x: Math.max(5, Math.min(95, x)), y: Math.max(5, Math.min(95, y)) };
+}
 
 interface JourneyMapProps {
   activeDay: number | null;
+  days: DayItinerary[];
 }
 
-export function JourneyMap({ activeDay }: JourneyMapProps) {
+export function JourneyMap({ activeDay, days }: JourneyMapProps) {
   const getActiveLocation = () => {
     if (activeDay === null) return null;
-    if ([1, 2, 10, 11, 12, 14].includes(activeDay)) return 0; // Tokio
-    if (activeDay === 3) return 1; // Fuji
-    if ([4, 5, 6, 8].includes(activeDay)) return 2; // Kioto
-    if (activeDay === 7) return 3; // Nara
-    if (activeDay === 9) return 4; // Osaka
-    if (activeDay === 13) return 5; // Kamakura
-    return null;
+    const day = days.find((d) => d.day === activeDay);
+    return day ? days.indexOf(day) : null;
   };
 
-  const activeLocation = getActiveLocation();
+  const activeLocationIndex = getActiveLocation();
+  const activeLocation = activeLocationIndex !== null ? days[activeLocationIndex] : null;
+
+  // Group days by unique coordinates
+  const uniqueLocations = days.reduce((acc, day) => {
+    const key = `${day.coordinates.lat.toFixed(2)}-${day.coordinates.lng.toFixed(2)}`;
+    if (!acc[key]) {
+      acc[key] = {
+        coords: day.coordinates,
+        days: [],
+        color: day.color,
+        iconName: day.iconName,
+        location: day.location,
+      };
+    }
+    acc[key].days.push(day);
+    return acc;
+  }, {} as Record<string, { coords: { lat: number; lng: number }; days: DayItinerary[]; color: string; iconName: string; location: string }>);
+
+  // Create paths between consecutive days
+  const paths: { from: { x: number; y: number }; to: { x: number; y: number } }[] = [];
+  for (let i = 0; i < days.length - 1; i++) {
+    const fromPos = coordsToPercent(days[i].coordinates.lat, days[i].coordinates.lng);
+    const toPos = coordsToPercent(days[i + 1].coordinates.lat, days[i + 1].coordinates.lng);
+    if (Math.abs(fromPos.x - toPos.x) > 2 || Math.abs(fromPos.y - toPos.y) > 2) {
+      paths.push({ from: fromPos, to: toPos });
+    }
+  }
 
   return (
     <div className="card-elevated p-6 sticky top-8">
@@ -43,125 +64,112 @@ export function JourneyMap({ activeDay }: JourneyMapProps) {
       </h3>
       
       <div className="relative aspect-[4/3] bg-gradient-to-br from-background to-muted/30 rounded-lg overflow-hidden">
-        {/* Japan outline - simplified artistic representation */}
-        <svg
-          viewBox="0 0 100 100"
-          className="absolute inset-0 w-full h-full"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          {/* Stylized Japan shape */}
-          <path
-            d="M75 15 Q85 20 90 30 Q95 45 88 55 Q82 65 78 75 Q75 80 70 82 Q60 85 50 80 Q40 78 35 70 Q28 60 25 50 Q22 40 28 32 Q35 22 45 18 Q55 14 65 15 Q70 15 75 15"
-            fill="none"
-            stroke="hsl(var(--border))"
-            strokeWidth="0.5"
-            className="opacity-50"
-          />
-          
-          {/* Connection paths */}
-          {paths.map((path, idx) => {
-            const from = locations[path.from];
-            const to = locations[path.to];
-            return (
-              <motion.line
-                key={idx}
-                x1={from.x}
-                y1={from.y}
-                x2={to.x}
-                y2={to.y}
-                stroke="hsl(var(--primary))"
-                strokeWidth="0.8"
-                strokeDasharray="3,2"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.4 }}
-                transition={{ delay: idx * 0.2, duration: 0.8 }}
-              />
-            );
-          })}
+        {/* Grid for reference */}
+        <div className="absolute inset-0 opacity-10">
+          {[20, 40, 60, 80].map((pos) => (
+            <div
+              key={pos}
+              className="absolute w-full h-px bg-foreground"
+              style={{ top: `${pos}%` }}
+            />
+          ))}
+        </div>
 
-          {/* Location markers */}
-          {locations.map((loc, idx) => (
-            <motion.g
-              key={loc.name}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.5 + idx * 0.1, type: "spring" }}
-            >
-              <motion.circle
-                cx={loc.x}
-                cy={loc.y}
-                r={activeLocation === idx ? 4 : 2.5}
-                fill={activeLocation === idx ? "hsl(var(--accent))" : "hsl(var(--primary))"}
-                animate={{
-                  r: activeLocation === idx ? [4, 5, 4] : 2.5,
-                  opacity: activeLocation === idx ? 1 : 0.7,
-                }}
-                transition={{
-                  r: { repeat: Infinity, duration: 1.5 },
-                }}
-              />
-              {activeLocation === idx && (
-                <motion.circle
-                  cx={loc.x}
-                  cy={loc.y}
-                  r="6"
-                  fill="none"
-                  stroke="hsl(var(--accent))"
-                  strokeWidth="0.5"
-                  initial={{ scale: 0, opacity: 1 }}
-                  animate={{ scale: 2, opacity: 0 }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
-                />
-              )}
-            </motion.g>
+        {/* Connection paths */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none">
+          {paths.map((path, idx) => (
+            <motion.line
+              key={idx}
+              x1={`${path.from.x}%`}
+              y1={`${path.from.y}%`}
+              x2={`${path.to.x}%`}
+              y2={`${path.to.y}%`}
+              stroke="hsl(var(--primary))"
+              strokeWidth="2"
+              strokeDasharray="6,4"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 0.4 }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
+            />
           ))}
         </svg>
 
-        {/* Location labels */}
-        {locations.map((loc, idx) => (
-          <motion.div
-            key={loc.name}
-            className={`absolute transform -translate-x-1/2 text-center transition-all duration-300 ${
-              activeLocation === idx
-                ? "text-accent font-semibold scale-110"
-                : "text-muted-foreground"
-            }`}
-            style={{
-              left: `${loc.x}%`,
-              top: `${loc.y + 6}%`,
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 + idx * 0.1 }}
-          >
-            <span className="text-xs font-display">{loc.name}</span>
-            {activeLocation === idx && (
-              <motion.div
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-[10px] text-accent/80 whitespace-nowrap"
+        {/* Location markers */}
+        {Object.entries(uniqueLocations).map(([key, location]) => {
+          const pos = coordsToPercent(location.coords.lat, location.coords.lng);
+          const isActive = activeLocation && location.days.some((d) => d.day === activeDay);
+
+          return (
+            <motion.div
+              key={key}
+              className="absolute transform -translate-x-1/2 -translate-y-1/2"
+              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+              initial={{ scale: 0 }}
+              animate={{ scale: isActive ? 1.3 : 1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div
+                className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-md ${
+                  isActive ? "ring-4 ring-accent/50" : ""
+                }`}
+                style={{ backgroundColor: location.color }}
               >
-                Días: {loc.days}
-              </motion.div>
-            )}
-          </motion.div>
-        ))}
+                <DynamicIcon name={location.iconName} size={18} className="text-white" />
+              </div>
+
+              {/* Location label */}
+              <div
+                className={`absolute top-full mt-1 left-1/2 -translate-x-1/2 text-center whitespace-nowrap transition-all ${
+                  isActive ? "opacity-100" : "opacity-60"
+                }`}
+              >
+                <span className="text-xs font-display font-medium">{location.location}</span>
+                {isActive && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-[10px] text-accent"
+                  >
+                    Días: {location.days.map((d) => d.day).join(", ")}
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Pulse effect for active */}
+              {isActive && (
+                <motion.div
+                  className="absolute inset-0 rounded-full"
+                  style={{ backgroundColor: location.color }}
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                />
+              )}
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Legend */}
       <div className="mt-4 flex flex-wrap gap-2 justify-center">
-        {locations.map((loc, idx) => (
-          <span
-            key={loc.name}
-            className={`text-xs px-2 py-1 rounded-full transition-all ${
-              activeLocation === idx
-                ? "bg-accent/20 text-accent"
-                : "bg-muted/50 text-muted-foreground"
-            }`}
-          >
-            {loc.name}
-          </span>
-        ))}
+        {Object.entries(uniqueLocations).map(([key, location]) => {
+          const isActive = activeLocation && location.days.some((d) => d.day === activeDay);
+          return (
+            <span
+              key={key}
+              className={`text-xs px-2 py-1 rounded-full transition-all flex items-center gap-1 ${
+                isActive
+                  ? "bg-accent/20 text-accent"
+                  : "bg-muted/50 text-muted-foreground"
+              }`}
+            >
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: location.color }}
+              />
+              {location.location}
+            </span>
+          );
+        })}
       </div>
     </div>
   );

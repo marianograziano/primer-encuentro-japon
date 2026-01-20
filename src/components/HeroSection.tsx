@@ -1,7 +1,15 @@
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Users } from "lucide-react";
+import { MapPin, Calendar, Users, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useItineraryStore } from "@/store/itineraryStore";
 
 export function HeroSection() {
+  const { days } = useItineraryStore();
+  
+  // Get unique locations
+  const uniqueLocations = new Set(days.map((d) => d.location.split("/")[0].trim()));
+
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
@@ -39,7 +47,7 @@ export function HeroSection() {
             </span>
             
             <h1 className="text-display text-5xl md:text-7xl lg:text-8xl text-foreground mb-6">
-              14 Días de
+              {days.length} Días de
               <span className="block text-primary">Descubrimiento</span>
             </h1>
 
@@ -55,11 +63,11 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-wrap justify-center gap-8 md:gap-12"
+            className="flex flex-wrap justify-center gap-8 md:gap-12 mb-8"
           >
             {[
-              { icon: Calendar, label: "Días", value: "14" },
-              { icon: MapPin, label: "Ciudades", value: "6" },
+              { icon: Calendar, label: "Días", value: days.length.toString() },
+              { icon: MapPin, label: "Ciudades", value: uniqueLocations.size.toString() },
               { icon: Users, label: "Grupo reducido", value: "8-10" },
             ].map((stat, idx) => (
               <div key={idx} className="flex items-center gap-3">
@@ -72,6 +80,20 @@ export function HeroSection() {
                 </div>
               </div>
             ))}
+          </motion.div>
+
+          {/* Editor button */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+          >
+            <Link to="/editor">
+              <Button variant="outline" size="lg" className="gap-2">
+                <Settings size={18} />
+                Editar Itinerario
+              </Button>
+            </Link>
           </motion.div>
         </motion.div>
 

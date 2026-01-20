@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, MapPin } from "lucide-react";
-import type { DayItinerary } from "@/data/itinerary";
+import { DynamicIcon } from "./editor/DynamicIcon";
+import type { DayItinerary } from "@/types/itinerary";
 
 interface DayCardProps {
   day: DayItinerary;
@@ -30,9 +31,12 @@ export function DayCard({ day, isActive, onClick, index }: DayCardProps) {
         }`}
       >
         <div className="flex items-start gap-4 p-5">
-          {/* Day number */}
-          <div className="day-indicator flex-shrink-0 z-10">
-            {day.day}
+          {/* Day number with dynamic icon */}
+          <div 
+            className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 z-10 shadow-md"
+            style={{ backgroundColor: day.color }}
+          >
+            <DynamicIcon name={day.iconName} size={18} className="text-white" />
           </div>
 
           {/* Content */}
