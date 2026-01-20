@@ -69,12 +69,12 @@ export default function Editor() {
     });
   };
 
-  const handleMapClick = (coords: { lat: number; lng: number }) => {
+  const handleMapClick = (lat: number, lng: number) => {
     if (selectedDayId) {
-      updateDay(selectedDayId, { coordinates: coords });
+      updateDay(selectedDayId, { coordinates: { lat, lng } });
       toast({
         title: "Coordenadas actualizadas",
-        description: `Lat: ${coords.lat.toFixed(4)}, Lng: ${coords.lng.toFixed(4)}`,
+        description: `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`,
       });
     } else {
       toast({
