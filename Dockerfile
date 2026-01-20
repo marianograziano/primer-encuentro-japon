@@ -1,10 +1,22 @@
-FROM nginx:alpine
 
-# Copiar los archivos estáticos al directorio de Nginx
-COPY . /usr/share/nginx/html
+FROM node:18-alpine
 
-# Exponer el puerto 80
-EXPOSE 80
+WORKDIR /app
 
-# Iniciar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Copy package files first to leverage cache
+COPY package*.json ./
+
+# Install dependencies (will include sqlite3, express, etc)
+RUN npm install
+
+# Copy the rest of the application
+COPY . .
+
+# Create uploads directory
+RUN mkdir -p uploads
+
+# Expose port (internal)
+EXPOSE 3000
+
+# Start server
+CMD ["node", "server.js"]

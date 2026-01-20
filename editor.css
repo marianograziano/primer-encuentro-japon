@@ -1,6 +1,6 @@
-/* ===== DYNAMIC THEME EDITOR STYLES ===== */
+/* ===== REFINED EDITOR STYLES (CLICK EDITION) ===== */
 
-/* Layout 1: Imagen Izquierda / Texto Derecha */
+/* ... Layout styles ... */
 .tematica-card.layout-left-img {
     grid-template-columns: 1fr 1fr;
 }
@@ -13,7 +13,6 @@
     order: -1;
 }
 
-/* Layout 2: Texto Izquierda / Imagen Derecha */
 .tematica-card.layout-right-img {
     grid-template-columns: 1fr 1fr;
 }
@@ -26,25 +25,25 @@
     order: 1;
 }
 
-/* Layout 3: Stacked (Imagen Arriba / Texto Abajo) */
 .tematica-card.layout-stacked {
     grid-template-columns: 1fr;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 .tematica-card.layout-stacked .tematica-content {
     order: 1;
     padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .tematica-card.layout-stacked .tematica-image {
     order: 0;
-    height: 400px;
+    min-height: 400px;
     width: 100%;
+    border-radius: 20px 20px 0 0;
 }
 
-/* Layout 4: Overlay (Texto sobre Imagen) */
 .tematica-card.layout-overlay {
     position: relative;
     display: flex;
@@ -52,6 +51,7 @@
     justify-content: center;
     min-height: 600px;
     overflow: hidden;
+    padding: 0;
 }
 
 .tematica-card.layout-overlay .tematica-image {
@@ -63,6 +63,13 @@
     z-index: 1;
 }
 
+.tematica-card.layout-overlay .tematica-image img {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .tematica-card.layout-overlay .tematica-content {
     position: relative;
     z-index: 2;
@@ -70,92 +77,197 @@
     margin: 2rem;
     padding: 3rem;
     border-radius: 12px;
-    max-width: 600px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(5px);
+    max-width: 700px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
 }
 
-/* Layout 5: Minimal Text (Side by Side big text) */
 .tematica-card.layout-minimal {
-    grid-template-columns: 1.5fr 1fr;
-    align-items: start;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    background: transparent;
+    box-shadow: none;
 }
 
 .tematica-card.layout-minimal .tematica-content {
     order: -1;
-    padding-top: 0;
+    padding: 0 3rem 0 0;
+    background: transparent;
 }
 
 .tematica-card.layout-minimal h3 {
-    font-size: 3.5rem;
-    line-height: 1.1;
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 2rem;
+    color: var(--color-dark);
 }
 
-/* Editor Controls */
+
+/* ===== UI CONTROLS ===== */
 .theme-editor-controls {
     position: absolute;
     top: 15px;
     right: 15px;
-    background: white;
-    padding: 8px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    z-index: 100;
-    display: flex;
-    /* Always visible for easy access in demo */
-    gap: 8px;
+    z-index: 1000;
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-5px);
     transition: all 0.3s ease;
+    background: white;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    pointer-events: none;
 }
 
 .tematica-card:hover .theme-editor-controls {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
 }
 
-.editor-btn {
-    padding: 6px 12px;
+.control-label {
+    display: block;
+    font-size: 9px;
+    color: #999;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.layout-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.wireframe-btn {
+    width: 44px;
+    height: 32px;
+    padding: 0;
     border: 1px solid #eee;
-    background: #fff;
+    background: #fdfdfd;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 11px;
-    font-weight: 600;
-    border-radius: 20px;
-    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.2s;
 }
 
-.editor-btn:hover {
-    background: var(--color-primary);
-    color: white;
+.wireframe-btn:hover {
     border-color: var(--color-primary);
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.editor-btn.active {
-    background: var(--color-primary);
-    color: white;
+.wireframe-btn.active {
     border-color: var(--color-primary);
+    background: rgba(139, 149, 86, 0.1);
+    box-shadow: inset 0 0 0 1px var(--color-primary);
 }
 
-/* Editable Areas */
-[contenteditable="true"] {
-    position: relative;
-    transition: all 0.2s;
-    cursor: text;
+.text-reset-btn {
+    font-size: 16px;
+    color: #999;
+    width: 32px;
+    border: none;
+    background: transparent;
 }
 
-[contenteditable="true"]:hover {
-    background: rgba(0, 0, 0, 0.02);
-    border-radius: 4px;
-    outline: 1px dashed #ccc;
+.text-reset-btn:hover {
+    color: #333;
+    background: #eee;
 }
 
-[contenteditable="true"]:focus {
+
+/* ===== CONTEXT MENU FOR IMAGES ===== */
+.img-context-menu {
+    position: absolute;
+    z-index: 1000;
     background: white;
-    outline: 2px solid var(--color-primary);
+    border-radius: 8px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 140px;
+    animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.menu-btn {
+    border: none;
+    background: transparent;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
     border-radius: 4px;
-    padding: 5px;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.1s;
+}
+
+.menu-btn:hover {
+    background: #f5f5f5;
+}
+
+.change-btn {
+    color: var(--color-primary);
+}
+
+.delete-btn {
+    color: #d9534f;
+}
+
+.cancel-btn {
+    text-align: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #999;
+    margin-top: 5px;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+}
+
+.cancel-btn:hover {
+    color: #333;
+    background: transparent;
+}
+
+/* Pointer cursor for all editable images */
+.tematica-image img,
+.zen-card-image img,
+.gallery-item img,
+.gallery-main img {
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.tematica-image img:hover,
+.zen-card-image img:hover,
+.gallery-item img:hover,
+.gallery-main img:hover {
+    filter: brightness(1.05);
+    box-shadow: 0 0 0 3px rgba(139, 149, 86, 0.5);
+    /* Highlight ring */
     z-index: 10;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

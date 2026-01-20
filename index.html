@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="editor.css">
+
 </head>
 
 <body>
@@ -114,7 +115,7 @@
 
             <div class="tematicas-grid">
                 <!-- Espiritualidad -->
-                <div class="tematica-card espiritualidad-card">
+                <div class="tematica-card espiritualidad-card" id="sec-espiritualidad" data-section-id="espiritualidad">
                     <div class="tematica-content-full">
                         <h3>Espiritualidad</h3>
 
@@ -158,7 +159,7 @@
                 </div>
 
                 <!-- Literatura -->
-                <div class="tematica-card reverse">
+                <div class="tematica-card reverse" id="sec-literatura" data-section-id="literatura">
                     <div class="tematica-image literature-grid">
                         <img src="literatura/literatura2.jpg" alt="Escena literaria en Japón">
                         <img src="literatura/literatura3.jpg" alt="Libros y cultura">
@@ -192,7 +193,7 @@
                 </div>
 
                 <!-- Gastronomía -->
-                <div class="tematica-card">
+                <div class="tematica-card" id="sec-gastronomia" data-section-id="gastronomia">
                     <div class="tematica-image gastronomy-grid">
                         <img src="gastronomia/alimentacion1.jpg" alt="Plato japonés tradicional">
                         <img src="gastronomia/alimentacion2.jpg" alt="Sushi y sashimi fresco">
@@ -211,7 +212,7 @@
                 </div>
 
                 <!-- Naturaleza -->
-                <div class="tematica-card reverse">
+                <div class="tematica-card reverse" id="sec-naturaleza" data-section-id="naturaleza">
                     <div class="tematica-image nature-grid">
                         <img src="naturaleza/naturaleza1.png" alt="Monte Fuji y cerezos">
                         <img src="naturaleza/naturaleza2.jpg" alt="Bosque de bambú">
@@ -245,7 +246,7 @@
                 </div>
 
                 <!-- Onsen y Sento -->
-                <div class="tematica-card">
+                <div class="tematica-card" id="sec-onsen" data-section-id="onsen">
                     <div class="tematica-image onsen-grid">
                         <img src="onsen/onzen1.jpg" alt="Baño termal tradicional">
                         <img src="onsen/onzen2.jpg" alt="Relajación en aguas termales">
@@ -264,7 +265,7 @@
                 </div>
 
                 <!-- Japón Vibrante -->
-                <div class="tematica-card reverse">
+                <div class="tematica-card reverse" id="sec-vibrante" data-section-id="vibrante">
                     <div class="tematica-image vibrante-grid">
                         <img src="vibrante/vibrante1.png" alt="Noche de neón en Tokio">
                         <img src="vibrante/vibrante2.jpg" alt="Bar de sake tradicional">
@@ -713,7 +714,8 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
-    <script src="editor.js"></script>
+    <script src="viewer.js"></script>
+
 </body>
 
 </html>
