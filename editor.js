@@ -254,8 +254,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                     currentImages.push({ src: d.url });
                     renderImages();
                     updatePreview();
+                } else {
+                    const errText = await res.text();
+                    alert("Error subida: " + res.status + " " + errText);
+                    console.error("Upload error", res.status, errText);
                 }
-            } catch (e) { alert("Error upload"); }
+            } catch (e) {
+                console.error(e);
+                alert("Error de red al subir imagen");
+            }
         }
     };
 
