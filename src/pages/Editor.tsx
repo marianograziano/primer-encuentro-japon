@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Plus, RotateCcw, Eye, Save, ArrowLeft } from "lucide-react";
+import { Plus, RotateCcw, Eye, ArrowLeft, Map } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useItineraryStore } from "@/store/itineraryStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DayEditorForm } from "@/components/editor/DayEditorForm";
-import { EditorMap } from "@/components/editor/EditorMap";
+import { LeafletMapEditor } from "@/components/editor/LeafletMapEditor";
 import { defaultCoordinates, colorOptions } from "@/types/itinerary";
 import { useToast } from "@/hooks/use-toast";
 
@@ -42,12 +42,23 @@ export default function Editor() {
       day: days.length + 1,
       location: newDayForm.location,
       title: newDayForm.title,
+      description: "",
       activities: [],
       coordinates: knownLocation
         ? defaultCoordinates[knownLocation]
         : { lat: 35.6762, lng: 139.6503 },
       iconName: "MapPin",
       color: colorOptions[0].value,
+      markerContent: {
+        title: newDayForm.location,
+        subtitle: newDayForm.title,
+        description: "",
+        imageUrl: "",
+        highlights: [],
+      },
+      tips: "",
+      duration: "Día completo",
+      transport: "",
     });
 
     setNewDayForm({ location: "", title: "" });
@@ -194,7 +205,7 @@ export default function Editor() {
 
           {/* Right: Map */}
           <div className="lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)]">
-            <EditorMap selectedDay={selectedDay} onMapClick={handleMapClick} />
+            <LeafletMapEditor selectedDay={selectedDay} onMapClick={handleMapClick} />
           </div>
         </div>
       </div>
