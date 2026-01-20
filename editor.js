@@ -191,12 +191,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             const paras = Array.from(clone.querySelectorAll('p, li'));
             if (paras.length > 0) {
                 contentInput.value = paras.map(p => {
-                    // Check if it's list item and add dash if needed?
-                    if (p.tagName === 'LI') return '- ' + p.innerText;
-                    return p.innerText;
+                    // Clean text cleanup: Remove newlines and collapse spaces
+                    const cleanText = p.innerText.replace(/[\n\r]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+                    if (p.tagName === 'LI') return '- ' + cleanText;
+                    return cleanText;
                 }).join('\n\n');
             } else {
-                contentInput.value = clone.innerText.trim();
+                contentInput.value = clone.innerText.replace(/[\n\r]+/g, ' ').replace(/\s+/g, ' ').trim();
             }
         } else {
             contentInput.value = "";
