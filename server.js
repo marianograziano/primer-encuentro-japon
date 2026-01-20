@@ -51,10 +51,10 @@ app.use(express.static(path.join(__dirname, '.')));
 
 
 // Database Setup
-const dbPath = path.join(__dirname, 'content.db');
+const dbPath = path.join(__dirname, 'data', 'content.db');
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) console.error('Error opening database', err);
-    else { console.log('Connected to SQLite database.'); initializeDb(); }
+    else { console.log('Connected to SQLite database at data/content.db'); initializeDb(); }
 });
 
 function initializeDb() {

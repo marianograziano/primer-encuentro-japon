@@ -8,8 +8,8 @@ RUN npm install
 
 COPY . .
 
-# Create uploads directory and set permissions
-RUN mkdir -p uploads && \
+# Create uploads and data directory and set permissions
+RUN mkdir -p uploads data && \
     chown -R node:node /app
 
 # Switch to non-root user
