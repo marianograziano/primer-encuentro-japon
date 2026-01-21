@@ -32,15 +32,15 @@ const map = L.map('map', {
     zoomControl: false
 });
 
-// Capa de mapa minimalista
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 20
-}).addTo(map);
-
 // Capa para el marcador único del día
 let markerLayer = L.layerGroup().addTo(map);
+
+// Google Maps Layer (Para etiquetas en Español 'hl=es')
+L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=es', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    attribution: '&copy; Google Maps'
+}).addTo(map);
 
 // SVG Constants
 const ICONS = {
@@ -60,7 +60,7 @@ function updateMapForDay(lat, lng, title, dayNumber, locationType, zoomLevel = 1
     let svgIcon = ICONS.default;
     if (ICONS[locationType]) svgIcon = ICONS[locationType];
     else if (['tokio', 'osaka'].includes(locationType)) svgIcon = ICONS.city;
-    else if (['kioto', 'nara', 'kamakura'].includes(locationType)) svgIcon = ICONS.temple;
+    else if (['kioto', 'nara', 'kamakura', 'himeji'].includes(locationType)) svgIcon = ICONS.temple;
     else if (['fuji'].includes(locationType)) svgIcon = ICONS.nature;
 
     // Custom styling
@@ -92,68 +92,6 @@ function updateMapForDay(lat, lng, title, dayNumber, locationType, zoomLevel = 1
     });
 }
 
-// ===== ITINERARIO INTERACTIVO (ACCORDEÓN + MAPA) =====
-const accordionItems = document.querySelectorAll('.timeline-accordion-item');
-
-accordionItems.forEach(item => {
-    const header = item.querySelector('.accordion-header');
-
-    // Click en el header del día
-    header.addEventListener('click', (e) => {
-        e.stopPropagation();
-
-        const lat = parseFloat(item.getAttribute('data-lat'));
-        const lng = parseFloat(item.getAttribute('data-lng'));
-        const dayNumber = item.querySelector('.day-number').innerText;
-        const titleText = item.querySelector('h3').innerText;
-        const locationType = item.getAttribute('data-location');
-        const isActive = item.classList.contains('active');
-
-        // Cerrar otros
-        accordionItems.forEach(otherItem => {
-            if (otherItem !== item) {
-                otherItem.classList.remove('active');
-            }
-        });
-
-        if (!isActive) {
-            item.classList.add('active');
-            updateMapForDay(lat, lng, titleText, dayNumber, locationType, 13);
-        } else {
-            item.classList.remove('active');
-            markerLayer.clearLayers();
-            map.flyTo([36.2048, 138.2529], 6, {
-                animate: true,
-                duration: 1.5
-            });
-        }
-    });
-
-    // Click en los items de la lista (Actividades específicas)
-    const listItems = item.querySelectorAll('li[data-lat]');
-    listItems.forEach(li => {
-        li.addEventListener('click', (e) => {
-            e.stopPropagation(); // IMPORTANTE: No cerrar el acordeón
-
-            const lat = parseFloat(li.getAttribute('data-lat'));
-            const lng = parseFloat(li.getAttribute('data-lng'));
-            const title = li.getAttribute('data-title');
-            const type = li.getAttribute('data-type') || 'default';
-            const dayText = item.querySelector('.day-number').innerText;
-
-            // Visual feedback
-            item.querySelectorAll('li').forEach(l => {
-                l.style.fontWeight = 'normal';
-                l.style.color = 'var(--color-dark)';
-            });
-            li.style.fontWeight = '700';
-            li.style.color = 'var(--color-primary)';
-
-            updateMapForDay(lat, lng, title, `Día ${dayText}`, type, 15); // Zoom 15 para la actividad
-        });
-    });
-});
-
 // ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -169,7 +107,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== ANIMACIONES AL SCROLL =====
+// ===== ANIMACIONES AL SCROLL (Observer) =====
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -100px 0px'
@@ -184,7 +122,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-document.querySelectorAll('.tematica-card, .timeline-accordion-item, .feature-card, .zen-card').forEach(el => {
+document.querySelectorAll('.tematica-card, .feature-card, .zen-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -200,15 +138,86 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Inicializar con el Día 1 activo
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        if (accordionItems.length > 0) {
-            // Simular click en el header para abrir el primer día correctamente
-            const header = accordionItems[0].querySelector('.accordion-header');
-            if (header) header.click();
-        }
-    }, 1000);
-});
+// ===== CARGA DINÁMICA DE ITINERARIO VIA JSON =====
+fetch('itinerary.json')
+    .then(response => response.json())
+    .then(data => {
+        const container = document.querySelector('.itinerario-timeline-accordion');
+        container.innerHTML = ''; // Asegurar contenedor limpio
 
-console.log('🗾 Propuesta Japón - UX Interactiva');
+        data.forEach((day, index) => {
+            const item = document.createElement('div');
+            item.className = 'timeline-accordion-item';
+
+            // Set styles for animation
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+
+            // Generar lista de actividades
+            const activitiesList = day.activities.map(act => `<li>${act}</li>`).join('');
+
+            item.innerHTML = `
+                <div class="accordion-header">
+                    <span class="day-number">${day.day}</span>
+                    <div class="header-info">
+                        <h3>${day.title}</h3>
+                        <p>${day.subtitle}</p>
+                    </div>
+                    <span class="accordion-icon">⌄</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>${activitiesList}</ul>
+                </div>
+            `;
+            container.appendChild(item);
+
+            // Fetch lat/lng from JSON
+            const lat = day.lat;
+            const lng = day.lng;
+            const locationType = day.location || 'default';
+
+            // Event Listener para este item (Acordeón)
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isActive = item.classList.contains('active');
+
+                const allItems = document.querySelectorAll('.timeline-accordion-item');
+
+                // Cerrar otros
+                allItems.forEach(other => {
+                    if (other !== item) {
+                        other.classList.remove('active');
+                        // Resetear altura si se estuviera manejando con JS, pero css hace el trabajo con max-height
+                    }
+                });
+
+                if (!isActive) {
+                    item.classList.add('active');
+                    // Actualizar mapa
+                    updateMapForDay(lat, lng, day.title, day.day.toString(), locationType);
+                } else {
+                    item.classList.remove('active');
+                    markerLayer.clearLayers();
+                    // Volver a vista general Japón
+                    map.flyTo([36.2048, 138.2529], 6);
+                }
+            });
+        });
+
+        // Opcional: Abrir el primer día por defecto después de un momento
+        if (container.children.length > 0) {
+            // Descomentar si se desea que el día 1 inicie abierto
+            // setTimeout(() => {
+            //     container.children[0].querySelector('.accordion-header').click();
+            // }, 1000);
+        }
+    })
+    .catch(err => {
+        console.error('Error cargando itinerario:', err);
+        document.querySelector('.itinerario-timeline-accordion').innerHTML = '<p style="padding:2rem;">Cargando itinerario...</p>';
+    });
+
+console.log('🗾 Propuesta Japón - Full JSON Render');
