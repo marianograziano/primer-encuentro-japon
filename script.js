@@ -36,7 +36,7 @@ const map = L.map('map', {
 let markerLayer = L.layerGroup().addTo(map);
 
 // Google Maps Layer (Para etiquetas en Español 'hl=es')
-L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=es', {
+L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=es', {
     maxZoom: 20,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     attribution: '&copy; Google Maps'
