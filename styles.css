@@ -768,6 +768,21 @@ ul {
     }
 }
 
+.gastronomy-layout.reverse {
+    grid-template-columns: 1.2fr 1fr;
+    /* Swap columns */
+}
+
+.gastronomy-layout.reverse .gastronomy-text-side {
+    order: 2;
+    /* Put text on right */
+}
+
+.gastronomy-layout.reverse .gastronomy-grid-side {
+    order: 1;
+    /* Put grid on left */
+}
+
 
 .spirituality-container {
     padding: var(--spacing-md);
