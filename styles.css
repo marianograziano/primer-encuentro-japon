@@ -672,59 +672,86 @@ ul {
     text-align: center;
 }
 
-/* Spiritual Gallery */
+/* Spiritual Gallery - Modern Bento Layout */
 .spiritual-gallery {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 15px;
+    height: 500px;
     margin-top: var(--spacing-lg);
 }
 
 .gallery-main {
     width: 100%;
-    height: 400px;
+    height: 100%;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 0;
+    position: relative;
+    /* Removed default margin */
 }
 
 .gallery-main img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition-slow);
+    transition: transform 0.6s ease;
 }
 
 .gallery-main:hover img {
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-md);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+    height: 100%;
 }
 
 .gallery-item {
-    height: 200px;
+    height: 100%;
+    /* Fill grid cell */
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-md);
-    transition: var(--transition-base);
-}
-
-.gallery-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-xl);
+    position: relative;
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition-slow);
+    transition: transform 0.4s ease;
 }
 
 .gallery-item:hover img {
     transform: scale(1.1);
+}
+
+/* Responsive Gallery */
+@media (max-width: 768px) {
+    .spiritual-gallery {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .gallery-main {
+        height: 300px;
+        margin-bottom: 15px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+        /* Let content define height */
+    }
+
+    .gallery-item {
+        height: 150px;
+    }
 }
 
 
