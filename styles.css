@@ -658,7 +658,7 @@ ul {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-md);
     align-items: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
 
     /* Card Styling */
     background: rgba(255, 255, 255, 0.6);
