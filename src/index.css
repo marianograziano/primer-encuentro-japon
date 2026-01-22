@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+/* Japanese-inspired Design System - Wabi-sabi aesthetic */
+
+@layer base {
+  :root {
+    /* Warm cream base */
+    --background: 40 33% 94%;
+    --foreground: 120 14% 20%;
+
+    /* Card surfaces - slightly warmer than background */
+    --card: 40 30% 96%;
+    --card-foreground: 120 14% 20%;
+
+    --popover: 40 30% 96%;
+    --popover-foreground: 120 14% 20%;
+
+    /* Primary - Terracotta warmth */
+    --primary: 28 54% 46%;
+    --primary-foreground: 40 33% 96%;
+
+    /* Secondary - Soft moss green */
+    --secondary: 90 14% 42%;
+    --secondary-foreground: 40 33% 96%;
+
+    /* Muted - Faded green tones */
+    --muted: 80 12% 85%;
+    --muted-foreground: 90 10% 40%;
+
+    /* Accent - Antique gold */
+    --accent: 45 71% 47%;
+    --accent-foreground: 120 14% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 40 33% 96%;
+
+    --border: 40 20% 85%;
+    --input: 40 20% 85%;
+    --ring: 28 54% 46%;
+
+    --radius: 0.5rem;
+
+    /* Custom gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(40 33% 94%) 0%, hsl(40 25% 88%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(40 30% 97%) 0%, hsl(40 28% 93%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(28 54% 46%) 0%, hsl(45 71% 47%) 100%);
+    
+    /* Shadows with warm undertones */
+    --shadow-soft: 0 4px 20px -2px hsl(28 30% 30% / 0.08);
+    --shadow-elevated: 0 12px 40px -8px hsl(28 30% 30% / 0.12);
+    --shadow-glow: 0 0 30px hsl(45 71% 47% / 0.2);
+
+    --sidebar-background: 40 30% 96%;
+    --sidebar-foreground: 120 14% 25%;
+    --sidebar-primary: 28 54% 46%;
+    --sidebar-primary-foreground: 40 33% 96%;
+    --sidebar-accent: 80 12% 90%;
+    --sidebar-accent-foreground: 120 14% 20%;
+    --sidebar-border: 40 20% 85%;
+    --sidebar-ring: 28 54% 46%;
+  }
+
+  .dark {
+    --background: 120 14% 10%;
+    --foreground: 40 25% 92%;
+
+    --card: 120 14% 12%;
+    --card-foreground: 40 25% 92%;
+
+    --popover: 120 14% 12%;
+    --popover-foreground: 40 25% 92%;
+
+    --primary: 28 54% 55%;
+    --primary-foreground: 120 14% 10%;
+
+    --secondary: 90 14% 30%;
+    --secondary-foreground: 40 25% 92%;
+
+    --muted: 120 10% 18%;
+    --muted-foreground: 80 12% 60%;
+
+    --accent: 45 71% 55%;
+    --accent-foreground: 120 14% 10%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 40 25% 92%;
+
+    --border: 120 10% 18%;
+    --input: 120 10% 18%;
+    --ring: 28 54% 55%;
+
+    --sidebar-background: 120 14% 10%;
+    --sidebar-foreground: 40 25% 88%;
+    --sidebar-primary: 28 54% 55%;
+    --sidebar-primary-foreground: 120 14% 10%;
+    --sidebar-accent: 120 10% 15%;
+    --sidebar-accent-foreground: 40 25% 92%;
+    --sidebar-border: 120 10% 18%;
+    --sidebar-ring: 28 54% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+@layer components {
+  .text-display {
+    font-family: 'Cormorant Garamond', serif;
+    @apply font-semibold tracking-tight;
+  }
+  
+  .text-body {
+    font-family: 'Inter', sans-serif;
+    @apply font-normal;
+  }
+
+  .card-elevated {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-soft);
+    @apply rounded-lg border border-border/50 transition-all duration-300;
+  }
+
+  .card-elevated:hover {
+    box-shadow: var(--shadow-elevated);
+    @apply border-primary/20;
+  }
+
+  .btn-primary {
+    background: var(--gradient-accent);
+    box-shadow: var(--shadow-soft);
+    @apply text-primary-foreground font-medium px-6 py-3 rounded-lg transition-all duration-300;
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--shadow-glow);
+    @apply scale-[1.02];
+  }
+
+  .day-indicator {
+    @apply w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold;
+    background: var(--gradient-accent);
+    @apply text-primary-foreground;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .timeline-line {
+    @apply w-0.5 bg-gradient-to-b from-primary via-accent to-secondary;
+  }
+
+  .section-divider {
+    @apply w-24 h-0.5 mx-auto my-8;
+    background: var(--gradient-accent);
+  }
+}
