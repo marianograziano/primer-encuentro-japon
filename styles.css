@@ -633,8 +633,8 @@ ul {
     line-height: 1;
 }
 
-/* Espiritualidad Card - Full Width */
-.espiritualidad-card {
+/* Generic Full Width Card */
+.full-width-card {
     grid-template-columns: 1fr !important;
 }
 
