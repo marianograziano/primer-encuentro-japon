@@ -638,6 +638,137 @@ ul {
     grid-template-columns: 1fr !important;
 }
 
+/* --- NEW LAYOUT: BENTO GRID (Vibrante / Nature) --- */
+.bento-grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(200px, auto);
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+}
+
+.bento-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease;
+}
+
+.bento-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.bento-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.bento-item:hover img {
+    transform: scale(1.05);
+}
+
+.bento-item-text {
+    grid-column: span 12;
+    background: rgba(255, 255, 255, 0.9);
+    padding: var(--spacing-md);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(139, 149, 86, 0.2);
+}
+
+.bento-item.large {
+    grid-column: span 8;
+    grid-row: span 2;
+}
+
+.bento-item.medium {
+    grid-column: span 4;
+}
+
+.bento-item.tall {
+    grid-column: span 4;
+    grid-row: span 2;
+}
+
+
+/* --- NEW LAYOUT: GASTRONOMY (Sticky Side + Masonry) --- */
+.gastronomy-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+.gastronomy-text-side {
+    position: sticky;
+    top: 100px;
+    background: rgba(255, 255, 255, 0.85);
+    padding: var(--spacing-lg);
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(139, 149, 86, 0.1);
+}
+
+.gastronomy-grid-side {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.gastronomy-item {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 250px;
+    box-shadow: var(--shadow-sm);
+}
+
+.gastronomy-item.wide {
+    grid-column: span 2;
+    height: 300px;
+}
+
+.gastronomy-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- RESPONSIVE FOR NEW LAYOUTS --- */
+@media (max-width: 900px) {
+
+    .bento-item.large,
+    .bento-item.medium,
+    .bento-item.tall {
+        grid-column: span 12;
+        /* Stack all on mobile */
+        grid-row: span 1;
+        height: 300px;
+        /* Fixed height for consistency */
+    }
+
+    .bento-item-text {
+        order: -1;
+        /* Text always first on mobile */
+        margin-bottom: var(--spacing-md);
+    }
+
+    .gastronomy-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .gastronomy-text-side {
+        position: static;
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+
 .spirituality-container {
     padding: var(--spacing-md);
     max-width: 1100px;
