@@ -1,14 +1,10 @@
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Users, Settings } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { useItineraryStore } from "@/store/itineraryStore";
+import { MapPin, Calendar, Users } from "lucide-react";
+import { itineraryData } from "@/data/itineraryData";
+import { cityColors } from "@/types/itinerary";
 
 export function HeroSection() {
-  const { days } = useItineraryStore();
-  
-  // Get unique locations
-  const uniqueLocations = new Set(days.map((d) => d.location.split("/")[0].trim()));
+  const cities = [...new Set(itineraryData.itinerary.map(d => d.base_city))];
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
@@ -47,7 +43,7 @@ export function HeroSection() {
             </span>
             
             <h1 className="text-display text-5xl md:text-7xl lg:text-8xl text-foreground mb-6">
-              {days.length} Días de
+              {itineraryData.duration_days} Días de
               <span className="block text-primary">Descubrimiento</span>
             </h1>
 
@@ -66,8 +62,8 @@ export function HeroSection() {
             className="flex flex-wrap justify-center gap-8 md:gap-12 mb-8"
           >
             {[
-              { icon: Calendar, label: "Días", value: days.length.toString() },
-              { icon: MapPin, label: "Ciudades", value: uniqueLocations.size.toString() },
+              { icon: Calendar, label: "Días", value: itineraryData.duration_days.toString() },
+              { icon: MapPin, label: "Ciudades", value: cities.length.toString() },
               { icon: Users, label: "Grupo reducido", value: "8-10" },
             ].map((stat, idx) => (
               <div key={idx} className="flex items-center gap-3">
@@ -82,18 +78,28 @@ export function HeroSection() {
             ))}
           </motion.div>
 
-          {/* Editor button */}
+          {/* City chips */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
+            className="flex flex-wrap justify-center gap-2"
           >
-            <Link to="/editor">
-              <Button variant="outline" size="lg" className="gap-2">
-                <Settings size={18} />
-                Editar Itinerario
-              </Button>
-            </Link>
+            {cities.map((city, idx) => (
+              <motion.span
+                key={city}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.7 + idx * 0.1 }}
+                className="px-4 py-2 rounded-full text-sm font-medium"
+                style={{ 
+                  backgroundColor: `${cityColors[city] || "#B87333"}15`,
+                  color: cityColors[city] || "#B87333"
+                }}
+              >
+                {city}
+              </motion.span>
+            ))}
           </motion.div>
         </motion.div>
 
