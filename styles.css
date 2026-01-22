@@ -404,6 +404,21 @@ ul {
     align-items: center;
 }
 
+/* Specific Highlight for "Mi Compromiso" */
+#card-commitment {
+    background: rgba(255, 255, 255, 0.95);
+    /* Slightly lighter/solid than others */
+    border-color: rgba(139, 149, 86, 0.4);
+    /* Stronger border */
+    box-shadow: 0 15px 35px rgba(139, 149, 86, 0.1);
+    /* Greenish soft shadow */
+}
+
+#card-commitment h3 {
+    color: var(--color-dark);
+    /* Darker title for contrast */
+}
+
 .zen-card-image {
     width: 100%;
     border-radius: 8px;
