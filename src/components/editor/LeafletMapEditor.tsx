@@ -160,9 +160,9 @@ export function LeafletMapEditor({ selectedDay, onMapClick }: LeafletMapEditorPr
           />
 
           {/* Markers for each location group */}
-          {Object.entries(locationGroups).map(([key, groupDays]) => {
+          {Object.entries(locationGroups).map(([key, groupDays]: [string, DayItinerary[]]) => {
             const firstDay = groupDays[0];
-            const isSelected = selectedDay && groupDays.some((d) => d.id === selectedDay.id);
+            const isSelected = selectedDay && groupDays.some((d: DayItinerary) => d.id === selectedDay.id);
             const isEditing = editingPopup === firstDay.id;
 
             return (
@@ -187,7 +187,7 @@ export function LeafletMapEditor({ selectedDay, onMapClick }: LeafletMapEditorPr
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute bottom-2 left-3 right-3 text-white">
                           <div className="text-xs opacity-80">
-                            Día{groupDays.length > 1 ? "s" : ""} {groupDays.map((d) => d.day).join(", ")}
+                            Día{groupDays.length > 1 ? "s" : ""} {groupDays.map((d: DayItinerary) => d.day).join(", ")}
                           </div>
                           {isEditing ? (
                             <Input
