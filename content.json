@@ -1,0 +1,32 @@
+{
+    "intro": {
+        "main_title": "Bienvenido a una experiencia diferente",
+        "main_description": "Viajar a Japón puede ser un sueño pero también un desafío para quienes no se animan a hacerlo solos. Mi propuesta está pensada para acompañar a personas que desean vivir esta experiencia única con seguridad, organización y un profundo sentido cultural.",
+        "cards": [
+            {
+                "id": "why_me",
+                "title": "¿Por qué viajar conmigo?",
+                "content": [
+                    "Este proyecto surge de mi profundo amor por los viajes, en especial por Japón, donde viví semanas explorando tanto pequeños pueblos como grandes ciudades. A esa vivencia le sumo mi trayectoria en el mundo corporativo, donde aprendí a organizar y planificar con precisión, y a comunicar siempre con empatía, compromiso y claridad. Mi deseo es acompañarlos a descubrir Japón de una manera auténtica y enriquecedora.",
+                    "Les propongo un viaje íntimo y seguro, junto a un grupo reducido de 4 o 5 personas, acompañándolos en cada paso: desde la organización y la logística diaria hasta la exploración de templos ligados a escritores, rincones gastronómicos familiares y vivencias auténticas que conectan con la literatura y la vida cotidiana japonesa."
+                ]
+            },
+            {
+                "id": "different_trip",
+                "title": "Un viaje distinto",
+                "content": [
+                    "Muchas personas me han dicho que no se animarían a viajar solas y justamente a ellas quiero ofrecerles esta oportunidad: un viaje cultural acompañado, con confianza y cercanía. Pensado para quienes valoran viajar con calma, contemplar en lugar de correr, apreciar los detalles y conversar sobre lo que descubrimos juntos.",
+                    "Nos moveremos en transporte urbano, como lo hace el japonés cada día. En cada templo exploraremos su sentido profundo, transformando cada visita en vivencia y recuerdo auténtico. La propuesta es vivir Japón desde dentro, sentirnos parte de su vida cotidiana, aunque sea por unos días."
+                ]
+            },
+            {
+                "id": "commitment",
+                "title": "Mi compromiso",
+                "content": [
+                    "Te propongo una vivencia única, un paseo por los sentidos, con la tranquilidad de que estaré acompañándote en cada paso para que puedas disfrutar sin estrés.",
+                    "Soy Christian Criscuolo y quisiera acompañarte en tu viaje. ¡Viajemos a Japón!"
+                ]
+            }
+        ]
+    }
+}

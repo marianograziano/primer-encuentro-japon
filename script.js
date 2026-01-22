@@ -221,3 +221,48 @@ fetch('itinerary.json')
     });
 
 console.log('🗾 Propuesta Japón - Full JSON Render');
+
+// ===== CARGA DINÁMICA DE CONTENIDO INTRO (content.json) =====
+fetch('content.json')
+    .then(response => response.json())
+    .then(data => {
+        const intro = data.intro;
+        if (!intro) return;
+
+        // 1. Intro Main Text
+        const mainTextEl = document.getElementById('intro-main-text');
+        if (mainTextEl) mainTextEl.innerText = intro.main_description;
+
+        // 2. Cards
+        const cardMap = {
+            'why_me': 'card-why-me',
+            'different_trip': 'card-different-trip',
+            'commitment': 'card-commitment'
+        };
+
+        if (intro.cards) {
+            intro.cards.forEach(cardData => {
+                const elementId = cardMap[cardData.id];
+                if (!elementId) return;
+                const cardEl = document.getElementById(elementId);
+                if (!cardEl) return;
+
+                let html = `<h3 class="zen-subtitle">${cardData.title}</h3>`;
+                cardData.content.forEach(paragraph => {
+                    // Check if paragraph is just a signature name to bold it
+                    if (paragraph.includes('Christian Criscuolo')) {
+                        const parts = paragraph.split('Christian Criscuolo');
+                        // Simple crude check, or just process HTML if we trust the JSON. 
+                        // Since I control JSON, I can make "Christian Criscuolo" bold in the JSON text or handle it here.
+                        // The User's text was "Soy Christian Criscuolo and ...".
+                        // In the HTML previously it was <strong>Christian Criscuolo</strong>.
+                        // Let's replace the name with strong tags if found.
+                        paragraph = paragraph.replace('Christian Criscuolo', '<strong>Christian Criscuolo</strong>');
+                    }
+                    html += `<p class="zen-text">${paragraph}</p>`;
+                });
+                cardEl.innerHTML = html;
+            });
+        }
+    })
+    .catch(err => console.error('Error loading content.json:', err));
