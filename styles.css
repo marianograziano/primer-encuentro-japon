@@ -652,12 +652,29 @@ ul {
     margin-bottom: var(--spacing-xl);
 }
 
+/* Rows as Cards */
 .spirituality-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-lg);
     align-items: center;
     margin-bottom: var(--spacing-xl);
+
+    /* Card Styling */
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
+    padding: var(--spacing-lg);
+    border-radius: 16px;
+    border: 1px solid rgba(139, 149, 86, 0.15);
+    /* Subtle green border */
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.spirituality-row:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .spirituality-row.reverse {
@@ -668,6 +685,10 @@ ul {
 .spirituality-row.reverse .spirituality-text {
     direction: ltr;
     /* Reset text direction */
+}
+
+.spirituality-text {
+    padding: var(--spacing-xs);
 }
 
 .spirituality-text p {
@@ -684,13 +705,18 @@ ul {
     border-left: 4px solid var(--color-accent);
     padding-left: var(--spacing-md);
     margin: var(--spacing-md) 0;
+    background: rgba(139, 149, 86, 0.05);
+    /* Light highlight for quote */
+    padding: var(--spacing-md);
+    border-radius: 0 8px 8px 0;
 }
 
 .spirituality-img {
-    height: 350px;
+    height: 300px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-md);
+    width: 100%;
 }
 
 .spirituality-img img {
@@ -705,18 +731,31 @@ ul {
 }
 
 @media (max-width: 800px) {
+    .spirituality-container {
+        padding: var(--spacing-md) var(--spacing-sm);
+        /* Less padding on mobile container */
+    }
 
     .spirituality-row,
     .spirituality-row.reverse {
         grid-template-columns: 1fr;
         direction: ltr;
         gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        /* Reduce internal padding */
     }
 
+    /* Fix "Cut off" by using aspect ratio and auto height */
     .spirituality-img {
-        height: 250px;
+        height: auto;
+        aspect-ratio: 16/9;
         order: -1;
-        /* Image first on mobile usually looks nice, or keep text first */
+        width: 100%;
+    }
+
+    /* Ensure text is readable and not cramped */
+    .spirituality-text p {
+        font-size: 1rem;
     }
 }
 
