@@ -722,10 +722,42 @@ ul {
 }
 
 .gastronomy-item {
+    position: relative;
+    /* Ensure relative positioning for caption */
     border-radius: 12px;
     overflow: hidden;
     height: 250px;
     box-shadow: var(--shadow-sm);
+}
+
+.gastronomy-item:hover .image-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.image-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    padding: 15px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+/* Show caption always on mobile */
+@media (max-width: 768px) {
+    .image-caption {
+        opacity: 1;
+        transform: translateY(0);
+        background: rgba(0, 0, 0, 0.6);
+    }
 }
 
 .gastronomy-item.wide {
