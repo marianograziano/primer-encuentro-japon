@@ -672,85 +672,150 @@ ul {
     text-align: center;
 }
 
-/* Spiritual Gallery - Modern Bento Layout */
+/* Spiritual Gallery - Organic Masonry Layout */
+.spiritual-gallery {
+    display: block;
+    column-count: 3;
+    column-gap: 15px;
+    margin-top: var(--spacing-lg);
+    height: auto;
+}
+
+.gallery-main,
+.gallery-grid,
+.gallery-grid .gallery-item {
+    /* Reset previous styles */
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+    height: auto;
+    break-inside: avoid;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.gallery-grid {
+    /* Remove grid container prop from previous layout since we flatten items ideally, 
+       but here we are wrapping existing HTML structure. 
+       To make true masonry with nested divs is tricky. 
+       Let's style the containers to flow. */
+    display: contents;
+    /* This unwraps the grid div visually so its children become part of the masonry flow if supported, 
+       OR we treat the grid div as just another block. 
+       Given the HTML structure: main + grid(4 items), masonry on parent works best if 'gallery-grid' is ignored or flattened.
+       
+       Better approach given HTML structure <div main><div grid><item><item>...</div></div>:
+       We keep "Spiritual Gallery" as container.
+       But standard CSS Grid is better for control than columns for mixed aspect ratios if structure is rigid.
+       
+       Let's try an asymmetrical Grid that feels less structured.
+    */
+}
+
+/* --- RE-ATTEMPT: Asymmetrical Grid (Mosaic) --- */
 .spiritual-gallery {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 15px;
-    height: 500px;
-    margin-top: var(--spacing-lg);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 250px 250px;
+    gap: 12px;
+    height: auto;
+    column-count: auto;
+    /* Reset masonry */
 }
 
+/* 
+   HTML is:
+   .spiritual-gallery
+      .gallery-main (Img 1)
+      .gallery-grid (Container of 4 imgs)
+         .gallery-item (Img 2)
+         ...
+   
+   We need to make .gallery-grid display:contents so its children participate in .spiritual-gallery's grid.
+*/
+.gallery-grid {
+    display: contents;
+}
+
+/* Item 1 (Main): Large, takes 2x2 on left */
 .gallery-main {
-    width: 100%;
+    grid-column: span 2;
+    grid-row: span 2;
     height: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
     margin-bottom: 0;
-    position: relative;
-    /* Removed default margin */
 }
 
+/* Items 2-5: Flow around */
+.gallery-item {
+    height: 100%;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.gallery-item img,
 .gallery-main img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
+    transition: transform 0.5s ease;
 }
 
-.gallery-main:hover img {
-    transform: scale(1.03);
+/* Individual Tweaks for "Organic" feel */
+/* Item 2: Top Right 1 - landscape */
+.gallery-item:nth-child(1) {
+    grid-column: span 2;
 }
 
-.gallery-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 15px;
-    height: 100%;
+/* Item 3: Bottom Right 1 - portrait */
+.gallery-item:nth-child(2) {
+    grid-column: span 1;
 }
 
-.gallery-item {
-    height: 100%;
-    /* Fill grid cell */
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    position: relative;
+/* Item 4: Bottom Right 2 - portrait */
+.gallery-item:nth-child(3) {
+    grid-column: span 1;
 }
 
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
+/* Item 5: Hidden or extra? If we have 5 items total (1 main + 4 in grid) */
+.gallery-item:nth-child(4) {
+    display: none;
+    /* Hide 5th if it breaks layout, or make it span */
 }
 
+
+/* Hover Effects */
+.gallery-main:hover img,
 .gallery-item:hover img {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
-/* Responsive Gallery */
+
+/* Responsive */
 @media (max-width: 768px) {
     .spiritual-gallery {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
-
-    .gallery-main {
-        height: 300px;
-        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
 
     .gallery-grid {
-        grid-template-columns: 1fr 1fr;
-        height: auto;
-        /* Let content define height */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
 
+    /* Recover hidden item on mobile */
+    .gallery-item:nth-child(4) {
+        display: block;
+    }
+
+    .gallery-main,
     .gallery-item {
-        height: 150px;
+        height: 250px;
+        width: 100%;
     }
 }
 
