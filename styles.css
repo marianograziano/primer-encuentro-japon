@@ -2384,4 +2384,52 @@ ul {
         object-fit: cover !important;
         border-radius: 12px;
     }
+}/* ===== FIX PADDING/CUT-OFF FOR LITERATURE & SPIRITUALITY (MOBILE) ===== */
+@media (max-width: 950px) {
+
+    /* Standardize container padding to match other sections */
+    .spirituality-container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        padding-top: 1rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden;
+        /* Prevent horiz scroll */
+    }
+
+    /* Reset Text Block padding since Container handles edge spacing */
+    .spirituality-text {
+        padding: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .spirituality-text p,
+    .spirituality-text h3,
+    .spirituality-text blockquote {
+        padding: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Ensure Images fit within the padded container (inset look) */
+    .spirituality-img {
+        width: 100% !important;
+        margin: 1.5rem 0 !important;
+        padding: 0 !important;
+        height: 300px !important;
+    }
+
+    .spirituality-img img {
+        border-radius: 12px !important;
+        /* Match rounded look */
+    }
+
+    /* Titles should center or left align? */
+    .spirituality-container h3 {
+        text-align: left !important;
+        /* Match other sections */
+        margin-bottom: 1.5rem !important;
+    }
 }
