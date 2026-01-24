@@ -2257,4 +2257,131 @@ ul {
         padding: 0 !important;
         margin-bottom: 1.5rem !important;
     }
+}/* ===== INTERLEAVED LAYOUT FOR VIBRANTE & STYLE RESET FOR OTHERS (MOBILE) ===== */
+@media (max-width: 950px) {
+
+    /* --- JAPÓN VIBRANTE --- */
+    #sec-vibrante .gastronomy-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    #sec-vibrante .gastronomy-text-side,
+    #sec-vibrante .gastronomy-grid-side {
+        display: contents !important;
+    }
+
+    /* Ordering Vibrante */
+    /* 1. Title */
+    #sec-vibrante .gastronomy-text-side h3 {
+        order: 1;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    /* 2. Intro Paragraph */
+    #sec-vibrante .gastronomy-text-side p:nth-of-type(1) {
+        order: 2;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    /* 3. Image 1 (Noches de Neón - Wide) */
+    #sec-vibrante .gastronomy-grid-side .gastronomy-item:nth-child(1) {
+        order: 3;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 4. List */
+    #sec-vibrante .gastronomy-text-side ul {
+        order: 4;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    /* 5. Image 2 (Shinjuku) */
+    #sec-vibrante .gastronomy-grid-side .gastronomy-item:nth-child(2) {
+        order: 5;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 6. Image 3 (Cultura Pop) */
+    #sec-vibrante .gastronomy-grid-side .gastronomy-item:nth-child(3) {
+        order: 6;
+        margin-bottom: 1.5rem !important;
+        height: 300px !important;
+    }
+
+    /* 7. Image 4 (Energía Urbana - Wide) */
+    #sec-vibrante .gastronomy-grid-side .gastronomy-item:nth-child(4) {
+        order: 7;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 8. Rest */
+    #sec-vibrante .gastronomy-grid-side .gastronomy-item {
+        order: 10;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Ensure Vibrante Images Visibility */
+    #sec-vibrante .gastronomy-item {
+        width: 100% !important;
+        height: 300px !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: #f0f0f0;
+    }
+
+    #sec-vibrante .gastronomy-item img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* --- ESTILO LIMPIO PARA LITERATURA Y ESPIRITUALIDAD --- */
+    /* Remove "card" styling (borders, background, shadow) on mobile */
+    .spirituality-row,
+    .spirituality-row.reverse {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+        margin-bottom: 3rem !important;
+        /* Increase spacing between sections since padding is gone */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    /* Improve Typography since container is gone */
+    .spirituality-text p {
+        padding: 0 0.5rem;
+        /* Small padding (gutters) */
+        text-align: left;
+    }
+
+    /* Ensure Images stack correctly */
+    .spirituality-img {
+        width: 100% !important;
+        height: 300px !important;
+        margin-top: 1.5rem !important;
+        order: 10 !important;
+        /* Always after text on mobile */
+    }
+
+    .spirituality-text {
+        order: 1 !important;
+        /* Always first */
+    }
+
+    .spirituality-img img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 12px;
+    }
 }
