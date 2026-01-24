@@ -812,6 +812,33 @@ ul {
         position: static;
         margin-bottom: var(--spacing-md);
     }
+
+    /* Reset for Reverse Layout on Mobile (Naturaleza) */
+    .gastronomy-layout.reverse .gastronomy-text-side {
+        order: -1 !important;
+        /* Forces text to be first */
+    }
+
+    .gastronomy-layout.reverse .gastronomy-grid-side {
+        order: 1 !important;
+    }
+
+    /* Enhancements for Mobile Images (Nature/Gastronomy) */
+    .gastronomy-grid-side {
+        grid-template-columns: 1fr;
+    }
+
+    .gastronomy-item,
+    .gastronomy-item.wide {
+        width: 100%;
+        grid-column: span 1;
+        height: 320px;
+        /* Taller images for better visibility */
+    }
+
+    .gastronomy-item img {
+        object-position: center;
+    }
 }
 
 .gastronomy-layout.reverse {
