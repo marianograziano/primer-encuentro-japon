@@ -1856,6 +1856,7 @@ ul {
     /* Force single column for internal grids on mobile */
     .literature-grid,
     .gastronomy-grid,
+    .gastronomy-grid-side,
     .nature-grid,
     .vibrante-grid,
     .onsen-grid {
@@ -1867,11 +1868,23 @@ ul {
 
     .literature-grid img,
     .gastronomy-grid img,
+    .gastronomy-grid-side img,
     .nature-grid img,
     .vibrante-grid img,
     .onsen-grid img {
-        height: 200px;
+        height: 250px;
         /* Fixed height for stacked images */
+        width: 100%;
+        object-fit: cover;
+    }
+
+    /* Reset spans for mobile */
+    .gastronomy-item.wide,
+    .bento-item.large,
+    .bento-item.medium,
+    .bento-item.tall {
+        grid-column: span 1 !important;
+        width: 100% !important;
     }
 
     /* Fix Map Overflow */
