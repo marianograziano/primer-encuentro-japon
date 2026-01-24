@@ -485,12 +485,26 @@ ul {
 }
 
 @media (max-width: 480px) {
+
+    .container,
+    .container-zen,
+    .container-full {
+        padding-left: var(--spacing-sm) !important;
+        /* 1rem en vez de 2rem */
+        padding-right: var(--spacing-sm) !important;
+    }
+
     .zen-card {
-        padding: var(--spacing-md);
+        padding: 1.25rem !important;
+        /* Reducido de 2rem a 1.25rem */
+    }
+
+    .tematica-content {
+        padding: 1.5rem !important;
     }
 
     .zen-main-title {
-        font-size: 2.25rem;
+        font-size: 2rem;
     }
 }
 
