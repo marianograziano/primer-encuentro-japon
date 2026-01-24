@@ -2432,4 +2432,42 @@ ul {
         /* Match other sections */
         margin-bottom: 1.5rem !important;
     }
+}/* ===== JUSTIFY TEXT ON MOBILE ===== */
+@media (max-width: 950px) {
+
+    /* Target main content text blocks */
+    .gastronomy-text-side p,
+    .gastronomy-text-side li,
+    .spirituality-text p,
+    .spirituality-text blockquote,
+    .container p,
+    .section-subtitle {
+        text-align: justify !important;
+        hyphens: auto !important;
+        /* Prevents large rivers of white space */
+    }
+
+    /* Exclude specific elements that look bad justified */
+    .hero-title,
+    .hero-subtitle,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .nav-link,
+    .footer-text,
+    .footer p,
+    .image-caption,
+    .btn {
+        text-align: center !important;
+        /* Keep titles/UI centered */
+    }
+
+    .gastronomy-text-side h3,
+    .spirituality-container h3 {
+        text-align: left !important;
+        /* Keep section titles left aligned as agreed */
+    }
 }
