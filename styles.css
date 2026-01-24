@@ -2049,4 +2049,97 @@ ul {
         opacity: 1 !important;
         visibility: visible !important;
     }
+}/* ===== INTERLEAVED LAYOUT FOR NATURE SECTION (MOBILE) ===== */
+@media (max-width: 950px) {
+
+    /* Target ONLY Nature Section */
+    #sec-naturaleza .gastronomy-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Unwrap the containers to mix children */
+    #sec-naturaleza .gastronomy-text-side,
+    #sec-naturaleza .gastronomy-grid-side {
+        display: contents !important;
+    }
+
+    /* === ORDERING === */
+
+    /* 1. Title */
+    #sec-naturaleza .gastronomy-text-side h3 {
+        order: 1;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    /* 2. Intro Paragraph ("Creo que los japoneses...") */
+    #sec-naturaleza .gastronomy-text-side p:nth-of-type(1) {
+        order: 2;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    /* 3. Image 1 (Fuji) */
+    #sec-naturaleza .gastronomy-grid-side .gastronomy-item:nth-child(1) {
+        order: 3;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 4. List (Cerezos, Momiji, Fuji...) */
+    #sec-naturaleza .gastronomy-text-side ul {
+        order: 4;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    /* 5. Image 4 (Cerezos) */
+    #sec-naturaleza .gastronomy-grid-side .gastronomy-item:nth-child(4) {
+        order: 5;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 6. Image 6 (Momiji) */
+    #sec-naturaleza .gastronomy-grid-side .gastronomy-item:nth-child(6) {
+        order: 6;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 7. Paragraph 2 ("En las cercanías...") */
+    #sec-naturaleza .gastronomy-text-side p:nth-of-type(2) {
+        order: 7;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    /* 8. Image 2 (Bambú) */
+    #sec-naturaleza .gastronomy-grid-side .gastronomy-item:nth-child(2) {
+        order: 8;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 9. Image 3 (Jardín) */
+    #sec-naturaleza .gastronomy-grid-side .gastronomy-item:nth-child(3) {
+        order: 9;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 10. Paragraph 3 (Conclusion) */
+    #sec-naturaleza .gastronomy-text-side p:nth-of-type(3) {
+        order: 10;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    /* 11. Remaining Images (Ríos / OTHERS) */
+    #sec-naturaleza .gastronomy-grid-side .gastronomy-item:nth-child(5) {
+        order: 11;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Ensure other items fall to the end just in case */
+    #sec-naturaleza .gastronomy-grid-side .gastronomy-item {
+        order: 12;
+    }
 }
