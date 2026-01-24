@@ -1826,4 +1826,130 @@ ul {
     .gallery-item {
         height: 180px;
     }
+
+    /* FIX: Prevent Horizontal Scroll on Small Devices (e.g., Samsung S25) */
+    .incluye-card,
+    .no-incluye-card {
+        padding: 1.5rem !important;
+        /* Reduce 3rem padding */
+    }
+
+    .incluye-card::before,
+    .no-incluye-card::before {
+        left: 20px;
+        /* Adjust icon position */
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+        top: -20px;
+    }
+
+    .contact-item,
+    .contacto-item {
+        padding: var(--spacing-sm) var(--spacing-md) !important;
+        /* Reduce massive horizontal padding */
+        width: 100%;
+        /* Ensure it fits */
+        justify-content: center;
+    }
+
+    /* Force single column for internal grids on mobile */
+    .literature-grid,
+    .gastronomy-grid,
+    .nature-grid,
+    .vibrante-grid,
+    .onsen-grid {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    .literature-grid img,
+    .gastronomy-grid img,
+    .nature-grid img,
+    .vibrante-grid img,
+    .onsen-grid img {
+        height: 200px;
+        /* Fixed height for stacked images */
+    }
+
+    /* Fix Map Overflow */
+    .itinerary-map-view,
+    .sticky-map-container {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow: hidden;
+    }
+
+    #map {
+        max-width: 100%;
+    }
+}
+
+/* ===== MOBILE S25 FIXES (360px) ===== */
+@media (max-width: 420px) {
+
+    /* Title sizing */
+    .section-title {
+        font-size: 2rem !important;
+    }
+
+    .hero-title {
+        font-size: 2.5rem !important;
+    }
+
+    /* Footer Form Stacking */
+    .footer-form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .footer-input {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    /* Grids & Cards */
+    .zen-cards-grid,
+    .tematica-grid,
+    .inclusiones-container,
+    .literature-grid,
+    .gastronomy-grid {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+    }
+
+    /* Card Padding Reduction */
+    .incluye-card,
+    .no-incluye-card {
+        padding: 1.25rem 1rem !important;
+        width: 100% !important;
+        /* Force width */
+        min-width: 0 !important;
+        /* Remove any min-width */
+    }
+
+    .zen-card {
+        padding: 1.25rem !important;
+    }
+
+    /* Contact Items */
+    .contacto-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem !important;
+    }
+
+    /* General Container Safety */
+    .container,
+    .container-zen,
+    .container-full {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden;
+    }
 }
