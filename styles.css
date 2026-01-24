@@ -2142,4 +2142,119 @@ ul {
     #sec-naturaleza .gastronomy-grid-side .gastronomy-item {
         order: 12;
     }
+}/* ===== INTERLEAVED LAYOUT FOR GASTRONOMIY (MOBILE) ===== */
+@media (max-width: 950px) {
+
+    /* Target Gastronomy Section */
+    #sec-gastronomia .gastronomy-layout {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    #sec-gastronomia .gastronomy-text-side,
+    #sec-gastronomia .gastronomy-grid-side {
+        display: contents !important;
+    }
+
+    /* === ORDERING GASTRONOMY === */
+
+    /* 1. Title */
+    #sec-gastronomia .gastronomy-text-side h3 {
+        order: 1;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    /* 2. Intro Paragraph ("La gastronomía japonesa...") */
+    #sec-gastronomia .gastronomy-text-side p:nth-of-type(1) {
+        order: 2;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    /* 3. Image 1 (Platos tradicionales) */
+    #sec-gastronomia .gastronomy-grid-side .gastronomy-item:nth-child(1) {
+        order: 3;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 4. Image 5 (Gyozas y Ramen - synced with text!) */
+    /* Note: nth-child index counts all children. Img 5 is 5th div */
+    #sec-gastronomia .gastronomy-grid-side .gastronomy-item:nth-child(5) {
+        order: 4;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 5. Paragraph 2 ("Comeremos en locales...") */
+    #sec-gastronomia .gastronomy-text-side p:nth-of-type(2) {
+        order: 5;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    /* 6. Image 2 (Sushi) */
+    #sec-gastronomia .gastronomy-grid-side .gastronomy-item:nth-child(2) {
+        order: 6;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 7. Image 3 (Callejera) */
+    #sec-gastronomia .gastronomy-grid-side .gastronomy-item:nth-child(3) {
+        order: 7;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* 8. Rest of images */
+    #sec-gastronomia .gastronomy-grid-side .gastronomy-item {
+        order: 10;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Fix Global Styles for Gastronomy Items on Mobile (ensuring visibility from previous fix applies here too if needed) */
+    #sec-gastronomia .gastronomy-item {
+        width: 100% !important;
+        height: 300px !important;
+        /* Consistent height */
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background: #f0f0f0;
+    }
+
+    #sec-gastronomia .gastronomy-item img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* ===== FIX ONSEN SECTION ORDER (MOBILE) ===== */
+    /* Ensure Text -> Image order for all rows */
+    #sec-onsen .spirituality-row,
+    #sec-onsen .spirituality-row.reverse {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    #sec-onsen .spirituality-img {
+        order: 1 !important;
+        /* Image AFTER text */
+        width: 100% !important;
+        height: 300px !important;
+        /* Good height */
+        max-width: 100% !important;
+    }
+
+    #sec-onsen .spirituality-img img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    #sec-onsen .spirituality-text {
+        order: 0 !important;
+        /* Text FIRST */
+        padding: 0 !important;
+        margin-bottom: 1.5rem !important;
+    }
 }
