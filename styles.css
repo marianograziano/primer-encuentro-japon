@@ -2574,4 +2574,142 @@ ul {
     padding: 0;
     margin: 0;
     list-style: none;
+}/* ===== MODERN INCLUDES SECTION ===== */
+.inclusiones-section.modern-layout {
+    background: #fdfdfd;
+    padding: 5rem 0;
+}
+
+.inclusiones-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-top: 3rem;
+}
+
+@media (max-width: 850px) {
+    .inclusiones-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.inclusion-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.inclusion-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Header Styles */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.inclusion-card.includes .card-header {
+    border-bottom-color: var(--color-primary);
+}
+
+.inclusion-card.excludes .card-header {
+    border-bottom-color: #ef4444;
+}
+
+.inclusion-card h3 {
+    font-size: 1.8rem;
+    margin: 0;
+    font-family: var(--font-display);
+}
+
+.inclusion-card.includes h3 {
+    color: var(--color-primary);
+}
+
+.inclusion-card.excludes h3 {
+    color: var(--color-accent);
+    /* Or red-ish */
+}
+
+/* Icons in Header */
+.icon-check,
+.icon-cross {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.icon-check {
+    background: var(--color-primary);
+}
+
+.icon-cross {
+    background: var(--color-accent);
+}
+
+/* Lists */
+.modern-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.modern-list>li {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-dark);
+    position: relative;
+    padding-left: 0;
+}
+
+.modern-list li strong {
+    color: #333;
+    font-weight: 700;
+}
+
+/* Sub-lists */
+.sub-list {
+    list-style: none;
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-left: 2px solid #eee;
+}
+
+.sub-list li {
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.sub-list li::before {
+    content: "•";
+    color: var(--color-primary);
+    margin-right: 0.5rem;
+}
+
+/* Notes */
+.note {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: #888;
+    font-style: italic;
 }

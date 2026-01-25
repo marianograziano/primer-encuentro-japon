@@ -465,47 +465,87 @@
         </div>
     </section>
 
-    <!-- Inclusiones -->
-    <section class="inclusiones-section">
-        <div class="inclusiones-container">
-            <div class="incluye-card">
-                <h3>Incluye</h3>
-                <ul class="check-list">
-                    <li><strong>Aéreo:</strong> Desde Buenos Aires a Tokio (clase turista, 1 valija incluida).</li>
-                    <li><strong>Hoteles Seleccionados:</strong>
-                        <ul>
-                            <li>2 noches en Tokio (Asakusa)</li>
-                            <li>1 noche en Fuji (Kawaguchiko)</li>
-                            <li>4 noches en Kioto</li>
-                            <li>2 noches en Osaka</li>
-                            <li>5 noches en Tokio</li>
-                        </ul>
-                    </li>
-                    <li><strong>Transporte Logístico:</strong> Trenes, buses y metro entre ciudades.</li>
-                    <li><strong>Tren Bala:</strong> Trayecto Osaka – Tokio en Shinkansen.</li>
-                    <li><strong>Tarjeta Suica/Pasmo:</strong> Con 5.000 yenes para traslados locales.</li>
-                    <li><strong>Acompañamiento:</strong> Guía personalizado durante todas las actividades.</li>
-                </ul>
-            </div>
-
-            <div class="no-incluye-card">
-                <h3>No Incluye</h3>
-                <ul class="check-list">
-                    <li><strong>Alimentación:</strong> Almuerzos y cenas (libres para explorar).</li>
-                    <li><strong>Traslados Locales:</strong> Buses y metro fuera de lo previsto.</li>
-                    <li><strong>Seguro de Viaje:</strong> Obligatorio contratar antes de la salida.</li>
-                    <li><strong>Entradas:</strong> Acceso a templos, museos o atracciones.</li>
-                    <li><strong>Extras:</strong> Gastos personales y actividades opcionales.</li>
-                </ul>
-            </div>
-        </div>
-
+    <!-- Inclusiones (Modern Grid) -->
+    <section class="inclusiones-section modern-layout">
         <div class="container">
-            <div class="nota-importante">
-                <p><strong>Nota:</strong> El acompañamiento no implica responsabilidad legal sobre servicios de
-                    terceros. Los viajeros deben ser mayores de 18 años y contar con seguro de viaje obligatorio.</p>
+            <h2 class="section-title">¿Qué incluye el viaje?</h2>
+
+            <div class="inclusiones-grid">
+                <!-- Card: Incluye -->
+                <div class="inclusion-card includes">
+                    <div class="card-header">
+                        <div class="icon-check">✓</div>
+                        <h3>Incluido</h3>
+                    </div>
+                    <ul class="modern-list">
+                        <li>
+                            <strong>Aéreo Internacional:</strong><br>
+                            Desde Buenos Aires a Tokio con dos escalas en cada tramo. Clase turista con 1 valija
+                            incluida.
+                        </li>
+                        <li>
+                            <strong>Alojamiento (Base Doble)*:</strong>
+                            <ul class="sub-list">
+                                <li>2 noches en Tokio (Asakusa)</li>
+                                <li>1 noche en Hakone (vistas del Mt. Fuji)</li>
+                                <li>2 noches en Osaka</li>
+                                <li>2 noches en Hiroshima</li>
+                                <li>4 noches en Kioto</li>
+                                <li>3 noches en Tokio (Shinjuku)</li>
+                            </ul>
+                            <small class="note">*Con desayuno. Consultar ocupación simple.</small>
+                        </li>
+                        <li>
+                            <strong>Transporte (JR Pass 14 días)**:</strong>
+                            <ul class="sub-list">
+                                <li>Aeropuerto Tokio - Hotel</li>
+                                <li>Tokio - Hakone</li>
+                                <li>Hakone - Osaka</li>
+                                <li>Osaka - Hiroshima</li>
+                                <li>Hiroshima - Kioto</li>
+                                <li>Kioto - Nara - Uji</li>
+                                <li>Kioto - Tokio</li>
+                                <li>Tokio - Aeropuerto</li>
+                            </ul>
+                            <small class="note">**Incluye varios trayectos en "Shinkansen" (tren bala).</small>
+                        </li>
+                        <li><strong>2 Cenas:</strong> Bienvenida y Despedida.</li>
+                        <li><strong>Tarjeta Suica/Pasmo:</strong> Con 5.000 yenes de saldo para transporte urbano.</li>
+                        <li><strong>Acompañamiento:</strong> 14 días con coordinador desde la primera hasta la última
+                            actividad.</li>
+                        <li><strong>Asesoría:</strong> Consultas previas y organización del itinerario.</li>
+                    </ul>
+                </div>
+
+                <!-- Card: No Incluye -->
+                <div class="inclusion-card excludes">
+                    <div class="card-header">
+                        <div class="icon-cross">✕</div>
+                        <h3>No Incluido</h3>
+                    </div>
+                    <ul class="modern-list">
+                        <li><strong>Alimentación:</strong> Almuerzos y cenas (salvo lo mencionado).</li>
+                        <li><strong>Traslados Locales:</strong> Buses y metro una vez agotado el saldo inicial (5.000
+                            yenes).</li>
+                        <li><strong>Seguro de Viaje:</strong> Debe contratarlo antes de viajar.</li>
+                        <li><strong>Entradas:</strong> A templos, museos y atracciones.</li>
+                        <li><strong>Documentación:</strong> Gestiones de visados o trámites personales requeridos por
+                            nacionalidad o destino/escalas.</li>
+                    </ul>
+                </div>
             </div>
+
+            <!-- Image Side (Optional for desktop visual balance if we had one similar to image) -->
+            <!-- For now, we focus on the text structure and clean css -->
         </div>
+    </section>
+
+    <div class="container">
+        <div class="nota-importante">
+            <p><strong>Nota:</strong> El acompañamiento no implica responsabilidad legal sobre servicios de
+                terceros. Los viajeros deben ser mayores de 18 años y contar con seguro de viaje obligatorio.</p>
+        </div>
+    </div>
     </section>
 
     <!-- Contacto (Ahora con Formulario) -->
