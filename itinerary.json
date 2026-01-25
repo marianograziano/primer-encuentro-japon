@@ -4,13 +4,14 @@
         "location": "tokio",
         "lat": 35.7148,
         "lng": 139.7967,
-        "title": "Día 1 – Llegada y primeras impresiones",
-        "subtitle": "Tokio: Asakusa y Sento",
+        "title": "Día 1 – TOKIO",
+        "subtitle": "Asakusa y Ribera del Sumida",
         "activities": [
-            "Llegada y traslado al hotel.",
-            "Asakusa: paseo por el barrio tradicional, visita al Sensō-ji y caminata por la ribera del río Sumida.",
+            "Llegada a TOKIO (tren a hotel, incluido).",
+            "Asakusa: paseo por el barrio tradicional, visita al templo Sensō-ji y caminata por la ribera del río Sumida.",
             "Experiencia “sento”: baño público japonés, relajación y cultura cotidiana.",
-            "Cena temprana en restaurante familiar (incluida)."
+            "Cena temprana en restaurante familiar (incluida).",
+            "Fin de jornada."
         ]
     },
     {
@@ -18,73 +19,62 @@
         "location": "tokio",
         "lat": 35.7088,
         "lng": 139.7741,
-        "title": "Día 2 – Tokio",
+        "title": "Día 2 – TOKIO",
         "subtitle": "Ueno, Yanaka y Jinbocho",
         "activities": [
             "Ueno: paseo por el mercado Ameyoko, llegada al parque y breve visita a sus templos y museos.",
             "Almuerzo libre.",
-            "Barrio Yanaka: calles estrechas y templos que sobrevivieron a la guerra. Santuario Nezu.",
+            "Barrio Yanaka: calles estrechas y templos que sobrevivieron a la guerra.",
+            "Santuario Nezu.",
             "Jinbocho: el paraíso de las librerías.",
-            "Cena libre en barrio cercano."
+            "Descanso en hotel. Cena libre.",
+            "Fin de jornada."
         ]
     },
     {
         "day": 3,
-        "location": "fuji",
-        "lat": 35.5000,
-        "lng": 138.7667,
-        "title": "Día 3 – Medio día en Tokio, salida al Fuji",
-        "subtitle": "Fuji y Kawaguchiko",
+        "location": "hakone",
+        "lat": 35.2311,
+        "lng": 139.0641,
+        "title": "Día 3 – TOKIO / HAKONE",
+        "subtitle": "Vistas del Monte Fuji",
         "activities": [
-            "Mañana: paseo por Sumida River y breve visita a un café tradicional.",
-            "Traslado a Monte Fuji – Lago Kawaguchiko.",
-            "Llegada y ascenso al Mt. Tenjō: mirador del Fuji.",
-            "Paseo en bote por el lago Kawaguchiko.",
-            "Caminata crepuscular por la orilla del lago, reflejo dorado del Fuji."
+            "Traslado a Hakone para tener vistas del Monte Fuji (incluido).",
+            "Llegada y ascenso al mirador del Fuji.",
+            "Paseo en bote por el lago Ashi (incluido).",
+            "Caminata crepuscular por la orilla del lago, reflejo dorado del Fuji.",
+            "Cena libre.",
+            "Fin de jornada."
         ]
     },
     {
         "day": 4,
-        "location": "kioto",
-        "lat": 34.9671,
-        "lng": 135.7727,
-        "title": "Día 4 – Llegada y primeras maravillas",
-        "subtitle": "Kioto: Fushimi Inari y Gion",
+        "location": "osaka",
+        "lat": 34.6873,
+        "lng": 135.5262,
+        "title": "Día 4 – HAKONE / OSAKA",
+        "subtitle": "Castillo y Shinsekai",
         "activities": [
-            "Santuario Fushimi Inari: los miles de torii rojos.",
-            "Barrio de Gion: paseo por calles históricas, casas de té y geishas.",
-            "Descanso en hotel.",
-            "Cena libre en Pontocho."
-        ]
-    },
-    {
-        "day": 4,
-        "location": "himeji",
-        "lat": 34.8394,
-        "lng": 134.6939,
-        "title": "Día 4 – HIMEJI",
-        "subtitle": "Castillo, Jardines y Reflexión",
-        "activities": [
-            "Castillo de Himeji (2h): recorre la fortaleza blanca, sube a la torre principal y disfruta su atmósfera épica.",
-            "Jardines Koko-en (1h): pasea por los nueve jardines Edo, toma un té matcha y contempla el murmullo del agua.",
-            "Calle Miyuki-dori (1h): explora tiendas locales, prueba Himeji oden o dulces japoneses.",
-            "Las explicaciones serán concisas pero profundas, invitando a dialogar juntos sobre el sentido espiritual, histórico y cultural de cada templo.",
-            "Visita el Santuario Itsukushima, famoso por su torii flotante y Monte Misen para vistas panorámicas."
+            "Mañana libre y salida a Osaka a mediodía (tren incluido).",
+            "Llegada a OSAKA.",
+            "Castillo de Osaka: símbolo de la ciudad.",
+            "Barrio Shinsekai: torre Tsūtenkaku y ambiente retro.",
+            "Cena libre.",
+            "Fin de jornada."
         ]
     },
     {
         "day": 5,
-        "location": "kioto",
-        "lat": 35.0116,
-        "lng": 135.6773,
-        "title": "Día 5 – Arashiyama y templos",
-        "subtitle": "Bambú y Kinkaku-ji",
+        "location": "osaka",
+        "lat": 34.6687,
+        "lng": 135.5013,
+        "title": "Día 5 – OSAKA",
+        "subtitle": "Dotonbori y Kuromon",
         "activities": [
-            "Arashiyama: puente Togetsukyo y bosque de bambú.",
-            "Templo Tenryu-ji (añadido especial, patrimonio UNESCO).",
-            "Almuerzo libre.",
-            "Kinkaku-ji (Pabellón Dorado) y Ryoan-ji (jardín zen).",
-            "Descanso en hotel. Cena libre."
+            "Nanba, Shinsaibashi y Dotonbori: luces, gastronomía y vida nocturna.",
+            "Kuromon Ichiba Market, mercado popular para probar takoyaki y sushi fresco.",
+            "Descanso en hotel. Cena libre.",
+            "Fin de jornada."
         ]
     },
     {
