@@ -196,139 +196,397 @@
     },
     {
         "day": 6,
-        "location": "kioto",
-        "lat": 34.9948,
-        "lng": 135.7850,
-        "title": "Día 6 – Filosofía y castillos",
-        "subtitle": "Kiyomizu-dera y Nijo",
+        "location": "hiroshima",
+        "lat": 34.3853,
+        "lng": 132.4553,
+        "title": "Día 6 – OSAKA / HIROSHIMA",
+        "subtitle": "Historia y Paz",
         "activities": [
-            "Kiyomizu-dera: visita de al menos dos horas, terraza de madera y fuentes sagradas.",
-            "Santuario Heian Jingu con su torii gigante.",
-            "Paseo del Filósofo: caminata reflexiva entre templos y naturaleza.",
-            "Jardines del Palacio Imperial y Castillo de Nijo.",
-            "Descanso en hotel. Cena libre."
+            {
+                "text": "Salida Osaka y Llegada a Hiroshima a mediodía (tren bala).",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Parque de la Paz.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Museo de la Paz.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Domo de la Bomba atómica.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 7,
-        "location": "nara",
-        "lat": 34.6851,
-        "lng": 135.8048,
-        "title": "Día 7 – Excursión Nara y Uji",
-        "subtitle": "Gran Buda y Té Verde",
+        "location": "hiroshima",
+        "lat": 34.2976,
+        "lng": 132.3114,
+        "title": "Día 7 – HIROSHIMA",
+        "subtitle": "Miyajima y Santuario",
         "activities": [
-            "Nara: Gran Buda de Tōdai-ji y ciervos sagrados en el parque.",
-            "Uji: ciudad del té verde, visita al Byōdō-in.",
-            "Regreso a Kioto. Cena libre."
+            {
+                "text": "Visita isla Miyajima (Ferry incluido).",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Visita el Santuario Itsukushima, famoso por su torii flotante.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Monte Misen para vistas panorámicas.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Regreso Hiroshima.",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Cena libre (Okonomimura).",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 8,
-        "location": "osaka",
-        "lat": 34.6873,
-        "lng": 135.5262,
-        "title": "Día 8 – Llegada y medio día",
-        "subtitle": "Osaka y Shinsekai",
+        "location": "kioto",
+        "lat": 34.9671,
+        "lng": 135.7727,
+        "title": "Día 8 – HIROSHIMA / KIOTO",
+        "subtitle": "Fushimi Inari y Gion",
         "activities": [
-            "Castillo de Osaka: símbolo de la ciudad.",
-            "Barrio Shinsekai: torre Tsūtenkaku y ambiente retro.",
-            "Cena libre."
+            {
+                "text": "Llegada a Kioto a mediodía (tren bala).",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Santuario Fushimi Inari: los miles de torii rojos.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Barrio de Gion: paseo por calles históricas, casas de té y geishas.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Descanso en hotel.",
+                "included": false,
+                "type": "hotel"
+            },
+            {
+                "text": "Cena libre en Pontocho.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 9,
-        "location": "osaka",
-        "lat": 34.6687,
-        "lng": 135.5013,
-        "title": "Día 9 – Osaka completo",
-        "subtitle": "Dotonbori y Kuromon",
+        "location": "kioto",
+        "lat": 35.0116,
+        "lng": 135.6773,
+        "title": "Día 9 – KIOTO",
+        "subtitle": "Arashiyama y templos",
         "activities": [
-            "Nanba, Shinsaibashi y Dotonbori: luces, gastronomía y vida nocturna.",
-            "Añadido: Kuromon Ichiba Market, mercado popular para probar takoyaki y sushi fresco.",
-            "Descanso en hotel. Cena libre."
+            {
+                "text": "Arashiyama: puente Togetsukyo y bosque de bambú.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Templo Tenryu-ji (patrimonio UNESCO).",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Opcional Monkey park Iwatayama.",
+                "included": false,
+                "type": "walking"
+            },
+            {
+                "text": "Almuerzo libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Kinkaku-ji (Pabellón Dorado) y Ryoan-ji (jardín zen).",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Descanso en hotel.",
+                "included": false,
+                "type": "hotel"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 10,
-        "location": "tokio",
-        "lat": 35.6812,
-        "lng": 139.7671,
-        "title": "Día 10 – Regreso a Tokio",
-        "subtitle": "Compras y Tren Bala",
+        "location": "nara",
+        "lat": 34.6851,
+        "lng": 135.8048,
+        "title": "Día 10 – NARA / UJI",
+        "subtitle": "Gran Buda y Té Verde",
         "activities": [
-            "Mañana de compras: libre compras por Osaka. Almuerzo incluido.",
-            "Tren bala a Tokio.",
-            "Check in hotel Tokio. Cena libre."
+            {
+                "text": "Salida por la mañana (tren incluido).",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Nara: Gran Buda de Tōdai-ji y ciervos sagrados en el parque.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Uji: ciudad del té verde, visita al Byōdō-in.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Estatua Murasaki Shikibu.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Regreso a Kioto.",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 11,
-        "location": "tokio",
-        "lat": 35.6679,
-        "lng": 139.7052,
-        "title": "Día 11 – Santuarios y barrios",
-        "subtitle": "Meiji, Shibuya y Harajuku",
+        "location": "kioto",
+        "lat": 34.9948,
+        "lng": 135.7850,
+        "title": "Día 11 – KIOTO",
+        "subtitle": "Kiyomizu-dera y Filosofía",
         "activities": [
-            "Santuario Meiji: espiritualidad en medio de la ciudad.",
-            "Shibuya: paseo por el barrio y cruce famoso.",
-            "Compras y paseo. Harajuku, moda y juventud. Calle Takeshita.",
-            "Cena libre."
+            {
+                "text": "Kiyomizu-dera: exploraremos su terraza de madera, las fuentes sagradas y sus callejuelas.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Santuario Heian Jingu con su torii gigante.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Paseo del Filósofo: caminata reflexiva entre templos y naturaleza.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Jardines del palacio Imperial.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Castillo de Nijo: residencia de los shogunes Tokugawa.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Descanso en hotel.",
+                "included": false,
+                "type": "hotel"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 12,
         "location": "tokio",
-        "lat": 35.6938,
-        "lng": 139.7034,
-        "title": "Día 12 – Cultura pop y vida nocturna",
-        "subtitle": "Nakano y Shinjuku",
+        "lat": 35.6679,
+        "lng": 139.7052,
+        "title": "Día 12 – KIOTO / TOKIO",
+        "subtitle": "Tren Bala y Cultura",
         "activities": [
-            "Nakano y Koenji: barrios alternativos, librerías y templos escondidos.",
-            "Shinjuku: vida nocturna, Golden Gai, experiencia de sake y comida callejera.",
-            "Cena libre."
+            {
+                "text": "Tomaremos el tren bala (incluido) para llegar a Tokio.",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Santuario Meiji: espiritualidad en medio de la ciudad.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Shibuya: paseo por el barrio y cruce famoso. Estatua Hachiko.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Harajuku, moda y juventud. Calle Takeshita.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 13,
         "location": "tokio",
-        "lat": 35.6984,
-        "lng": 139.7745,
-        "title": "Día 13 – Tecnología y despedida",
-        "subtitle": "Akihabara y Kanda",
+        "lat": 35.7056,
+        "lng": 139.6656,
+        "title": "Día 13 – TOKIO",
+        "subtitle": "Alternativo y Nocturno",
         "activities": [
-            "Akihabara: cultura pop, manga y anime.",
-            "Kanda Myōjin Shrine: santuario de comerciantes y \"geeks\".",
-            "Paseo por Ochanomizu, barrio de instrumentos y librerías.",
-            "Cena despedida en Izakaya (incluida)."
-        ]
-    },
-    {
-        "day": 14,
-        "location": "kamakura",
-        "lat": 35.3192,
-        "lng": 139.5466,
-        "title": "Día 14 – Kamakura",
-        "subtitle": "Gran Buda y Mar",
-        "activities": [
-            "08:30 – Salida desde Tokio en tren JR.",
-            "09:30 – Llegada a Kamakura. Templo Hase-dera.",
-            "Gran Buda (Daibutsu) en Kōtoku-in.",
-            "11:30 – Paseo por Komachi-dori y almuerzo ligero.",
-            "13:00 – Santuario Tsurugaoka Hachimangū.",
-            "14:30 – Regreso en tren. 16:00 Llegada a Tokio."
+            {
+                "text": "Nakano y Koenji: barrios alternativos, librerías y templos escondidos.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Shinjuku: vida nocturna, Golden Gai, experiencia de sake y comida callejera.",
+                "included": true,
+                "type": "food"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
         "day": 14,
         "location": "tokio",
+        "lat": 35.6984,
+        "lng": 139.7745,
+        "title": "Día 14 – TOKIO",
+        "subtitle": "Cultura Pop y Tradición",
+        "activities": [
+            {
+                "text": "Akihabara: cultura pop, manga y anime.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Kanda Myōjin Shrine: santuario con más de 1.200 años de historia.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Paseo por Ochanomizu, barrio de instrumentos musicales y librerías especializadas, un rincón alternativo y creativo.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Cena despedida en Izakaya (incluida).",
+                "included": true,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
+        ]
+    },
+    {
+        "day": 15,
+        "location": "tokio",
         "lat": 35.7720,
         "lng": 140.3929,
-        "title": "Día 14 – Últimas compras y regreso",
-        "subtitle": "Despedida",
+        "title": "Día 15 – TOKIO",
+        "subtitle": "Compras y Regreso",
         "activities": [
-            "Tiempo libre para compras en Shinjuku o Ginza.",
-            "Traslado al aeropuerto.",
-            "Fin del viaje."
+            {
+                "text": "Dia libre para compras en Ginza o Shinjuku.",
+                "included": false,
+                "type": "walking"
+            },
+            {
+                "text": "Fin de viaje.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Tren a aeropuerto (incluido)",
+                "included": true,
+                "type": "transport"
+            }
         ]
     }
 ]
