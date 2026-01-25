@@ -2470,4 +2470,17 @@ ul {
         text-align: left !important;
         /* Keep section titles left aligned as agreed */
     }
+}/* ===== JUSTIFY TEXT FOR INTRO SECTION (MOBILE) ===== */
+@media (max-width: 950px) {
+
+    /* Add Zen/Intro cards text to justification */
+    .zen-card p,
+    .zen-text-lead,
+    .zen-card-content p,
+    .intro-paragraph,
+    /* In case used in JS */
+    .container-zen p {
+        text-align: justify !important;
+        hyphens: auto !important;
+    }
 }
