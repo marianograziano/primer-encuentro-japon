@@ -7,11 +7,36 @@
         "title": "Día 1 – TOKIO",
         "subtitle": "Asakusa y Ribera del Sumida",
         "activities": [
-            "Llegada a TOKIO (tren a hotel, incluido).",
-            "Asakusa: paseo por el barrio tradicional, visita al templo Sensō-ji y caminata por la ribera del río Sumida.",
-            "Experiencia “sento”: baño público japonés, relajación y cultura cotidiana.",
-            "Cena temprana en restaurante familiar (incluida).",
-            "Fin de jornada."
+            {
+                "text": "Llegada a TOKIO (tren a hotel).",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Asakusa: paseo por el barrio tradicional y Templo Sensō-ji.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Caminata por la ribera del río Sumida.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Experiencia “sento”: baño público japonés.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Cena temprana en restaurante familiar.",
+                "included": true,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
@@ -22,13 +47,41 @@
         "title": "Día 2 – TOKIO",
         "subtitle": "Ueno, Yanaka y Jinbocho",
         "activities": [
-            "Ueno: paseo por el mercado Ameyoko, llegada al parque y breve visita a sus templos y museos.",
-            "Almuerzo libre.",
-            "Barrio Yanaka: calles estrechas y templos que sobrevivieron a la guerra.",
-            "Santuario Nezu.",
-            "Jinbocho: el paraíso de las librerías.",
-            "Descanso en hotel. Cena libre.",
-            "Fin de jornada."
+            {
+                "text": "Ueno: paseo por el mercado Ameyoko y Parque Ueno.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Almuerzo libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Barrio Yanaka: calles estrechas y templos.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Santuario Nezu.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Jinbocho: el paraíso de las librerías.",
+                "included": true,
+                "type": "culture"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
@@ -39,12 +92,36 @@
         "title": "Día 3 – TOKIO / HAKONE",
         "subtitle": "Vistas del Monte Fuji",
         "activities": [
-            "Traslado a Hakone para tener vistas del Monte Fuji (incluido).",
-            "Llegada y ascenso al mirador del Fuji.",
-            "Paseo en bote por el lago Ashi (incluido).",
-            "Caminata crepuscular por la orilla del lago, reflejo dorado del Fuji.",
-            "Cena libre.",
-            "Fin de jornada."
+            {
+                "text": "Traslado a Hakone (vistas del Monte Fuji).",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Ascenso al mirador del Fuji.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Paseo en bote por el lago Ashi.",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Caminata crepuscular por la orilla del lago.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
@@ -55,12 +132,36 @@
         "title": "Día 4 – HAKONE / OSAKA",
         "subtitle": "Castillo y Shinsekai",
         "activities": [
-            "Mañana libre y salida a Osaka a mediodía (tren incluido).",
-            "Llegada a OSAKA.",
-            "Castillo de Osaka: símbolo de la ciudad.",
-            "Barrio Shinsekai: torre Tsūtenkaku y ambiente retro.",
-            "Cena libre.",
-            "Fin de jornada."
+            {
+                "text": "Mañana libre y salida a Osaka a mediodía (tren).",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Llegada a OSAKA.",
+                "included": true,
+                "type": "transport"
+            },
+            {
+                "text": "Castillo de Osaka.",
+                "included": true,
+                "type": "temple"
+            },
+            {
+                "text": "Barrio Shinsekai: torre Tsūtenkaku y ambiente retro.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {
@@ -71,10 +172,26 @@
         "title": "Día 5 – OSAKA",
         "subtitle": "Dotonbori y Kuromon",
         "activities": [
-            "Nanba, Shinsaibashi y Dotonbori: luces, gastronomía y vida nocturna.",
-            "Kuromon Ichiba Market, mercado popular para probar takoyaki y sushi fresco.",
-            "Descanso en hotel. Cena libre.",
-            "Fin de jornada."
+            {
+                "text": "Nanba, Shinsaibashi y Dotonbori: luces y vida nocturna.",
+                "included": true,
+                "type": "walking"
+            },
+            {
+                "text": "Kuromon Ichiba Market: takoyaki y sushi fresco.",
+                "included": true,
+                "type": "food"
+            },
+            {
+                "text": "Cena libre.",
+                "included": false,
+                "type": "food"
+            },
+            {
+                "text": "Fin de jornada.",
+                "included": false,
+                "type": "hotel"
+            }
         ]
     },
     {

@@ -2483,4 +2483,95 @@ ul {
         text-align: justify !important;
         hyphens: auto !important;
     }
+}/* ===== ITINERARY ACTIVITY ICONS & BADGES ===== */
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon-wrapper {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(139, 149, 86, 0.1);
+    color: var(--color-primary);
+}
+
+.activity-icon-wrapper svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Specific icon colors if needed */
+.activity-icon-wrapper.transport {
+    color: #3b82f6;
+    background: #eff6ff;
+}
+
+.activity-icon-wrapper.food {
+    color: #eab308;
+    background: #fef9c3;
+}
+
+.activity-icon-wrapper.temple {
+    color: #ef4444;
+    background: #fee2e2;
+}
+
+.activity-icon-wrapper.walking {
+    color: #10b981;
+    background: #d1fae5;
+}
+
+.activity-icon-wrapper.hotel {
+    color: #6366f1;
+    background: #e0e7ff;
+}
+
+.activity-text-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: flex-start;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge.included {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.badge.free {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+}
+
+/* Ensure list reset */
+.accordion-content ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }

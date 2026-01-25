@@ -156,7 +156,52 @@ fetch('itinerary.json')
             observer.observe(item);
 
             // Generar lista de actividades
-            const activitiesList = day.activities.map(act => `<li>${act}</li>`).join('');
+            const icons = {
+                transport: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><circle cx="7" cy="15" r="2"/><circle cx="17" cy="15" r="2"/><rect x="11" y="5" width="2" height="5"/></svg>', // Bus/Train generic
+                food: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>', // Utensils
+                temple: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16"/><path d="M9.5 22v-9.5"/><path d="M14.5 22v-9.5"/><path d="M2 12.5h20"/><path d="M12 2l8 8.5h-3.5v2h-9v-2H4L12 2Z"/></svg>', // Temple-ish
+                walking: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/><path d="M12 19v-4"/><path d="M12 9V5"/><path d="M5 12H9"/><path d="M15 12h4"/></svg>', // Sightseeing/Target
+                hotel: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>', // Bed/Hotel
+                culture: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>' // Check/General
+            };
+
+            const activitiesList = day.activities.map(act => {
+                let text = act;
+                let type = 'culture';
+                let included = null;
+
+                if (typeof act === 'object') {
+                    text = act.text;
+                    type = act.type || 'culture';
+                    included = act.included;
+                } else {
+                    // Fallback heuristics for legacy strings
+                    const lower = act.toLowerCase();
+                    if (lower.includes('cena') || lower.includes('almuerzo')) type = 'food';
+                    else if (lower.includes('traslado') || lower.includes('tren') || lower.includes('llegada')) type = 'transport';
+                    else if (lower.includes('templo') || lower.includes('santuario') || lower.includes('castillo')) type = 'temple';
+                    else if (lower.includes('hotel') || lower.includes('descanso')) type = 'hotel';
+                    else if (lower.includes('paseo') || lower.includes('caminata') || lower.includes('visita')) type = 'walking';
+                }
+
+                const iconSvg = icons[type] || icons.culture;
+
+                let badgeHtml = '';
+                if (included === true) badgeHtml = '<span class="badge included">Incluido</span>';
+                else if (included === false) badgeHtml = '<span class="badge free">No incluido</span>';
+
+                return `
+                    <li class="activity-item">
+                        <div class="activity-icon-wrapper ${type}">
+                            ${iconSvg}
+                        </div>
+                        <div class="activity-text-content">
+                            <div>${text}</div>
+                            ${badgeHtml}
+                        </div>
+                    </li>
+                `;
+            }).join('');
 
             item.innerHTML = `
                 <div class="accordion-header">
