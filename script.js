@@ -188,7 +188,7 @@ fetch('itinerary.json')
 
                 let badgeHtml = '';
                 if (included === true) badgeHtml = '<span class="badge included">Incluido</span>';
-                else if (included === false) badgeHtml = '<span class="badge free">No incluido</span>';
+                // else if (included === false) badgeHtml = '<span class="badge free">No incluido</span>'; // Hidden per user request
 
                 return `
                     <li class="activity-item">
