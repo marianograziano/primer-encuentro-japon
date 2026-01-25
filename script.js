@@ -35,11 +35,11 @@ const map = L.map('map', {
 // Capa para el marcador único del día
 let markerLayer = L.layerGroup().addTo(map);
 
-// Google Maps Layer (Para etiquetas en Español 'hl=es')
-L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=es', {
-    maxZoom: 20,
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    attribution: '&copy; Google Maps'
+// CartoDB Positron (Cleaner, less intense)
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
 }).addTo(map);
 
 // SVG Constants
@@ -52,7 +52,7 @@ const ICONS = {
     default: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/></svg>`
 };
 
-function updateMapForDay(lat, lng, title, dayNumber, locationType, zoomLevel = 13) {
+function updateMapForDay(lat, lng, title, dayNumber, locationType, zoomLevel = 12) { // Zoom reduced to 12
     // Limpiar marcador anterior
     markerLayer.clearLayers();
 
@@ -60,8 +60,8 @@ function updateMapForDay(lat, lng, title, dayNumber, locationType, zoomLevel = 1
     let svgIcon = ICONS.default;
     if (ICONS[locationType]) svgIcon = ICONS[locationType];
     else if (['tokio', 'osaka'].includes(locationType)) svgIcon = ICONS.city;
-    else if (['kioto', 'nara', 'kamakura', 'himeji'].includes(locationType)) svgIcon = ICONS.temple;
-    else if (['fuji'].includes(locationType)) svgIcon = ICONS.nature;
+    else if (['kioto', 'nara', 'kamakura', 'himeji', 'hiroshima'].includes(locationType)) svgIcon = ICONS.temple;
+    else if (['fuji', 'hakone'].includes(locationType)) svgIcon = ICONS.nature;
 
     // Custom styling
     let extraClass = locationType;
@@ -85,10 +85,11 @@ function updateMapForDay(lat, lng, title, dayNumber, locationType, zoomLevel = 1
         </div>
     `, { closeButton: false, offset: [0, -20] }).openPopup();
 
-    // Centrar con suavidad
+    // Centrar con suavidad (Less intense animation)
     map.flyTo([lat, lng], zoomLevel, {
         animate: true,
-        duration: 1.0
+        duration: 2.5, // Slower duration
+        easeLinearity: 0.25
     });
 }
 
